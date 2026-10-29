@@ -1,28 +1,51 @@
 /**
  * BuxDU Smart Admin Native Django Controller
  * ===========================================
- * Seamlessly integrates into Django Administration forms.
+ * Seamlessly integrates into Django Administration:
+ * 1. Changeform (individual edit): instant in-place field updates (DOM + CKEditor)
+ * 2. Changelist (table view): 1-click bulk updates for selected/all articles in DB
+ *
  * Provides:
- * 1. ⚡ Complete 2026 Uzbek Latin alphabet transliteration (Ö, Ğ, Ş, Ç)
- * 2. 🌐 Multi-language automatic translation (RU, EN, ZH)
- * 3. 🚀 1-Click Master action
- * 4. Full support for CKEditor 4/5, TinyMCE, modeltranslation tabs & plain inputs.
+ * ⚡ 2026 Uzbek Latin alphabet transliteration (Ö, Ğ, Ş, Ç)
+ * 🌐 Multi-language automatic translation (RU, EN, ZH)
+ * 🚀 1-Click Master action
  */
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log("🏛️ [BuxDU Smart Admin] Django Admin Paneli faollashtirildi!");
+
+    // Helper: CSRF Cookie reader
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     // =========================================================================
     // 1. ENSURE ACTION BAR (SINGLE INSTANCE ONLY)
     // =========================================================================
     function setupActionBar() {
         if (document.getElementById('buxdu-django-bar')) {
-            // Template already provided the bar, no need to inject
             return;
         }
 
-        const target = document.querySelector('#content-main form') || document.querySelector('#content form') || document.querySelector('#content');
+        const target = document.querySelector('#content-main form') ||
+                       document.querySelector('#changelist-form') ||
+                       document.querySelector('#changelist') ||
+                       document.querySelector('#content form') ||
+                       document.querySelector('#content');
         if (!target) return;
+
+        const isList = isChangelistPage();
 
         const bar = document.createElement('div');
         bar.id = 'buxdu-django-bar';
@@ -34,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="django-bar-badge">2026 Alifbo: Ö, Ğ, Ş, Ç</span>
             </div>
             <div class="django-bar-actions">
-                <button type="button" id="btn-transliterate-new" class="django-admin-btn django-btn-accent" title="Barcha o'zbekcha matnlarni yangi lotin alifbosiga (Ö, Ğ, Ş, Ç) o'tkazish">
+                <button type="button" id="btn-transliterate-new" class="django-admin-btn django-btn-accent" title="${isList ? 'Barcha/tanlangan maqolalarni yangi alifboga (Ö, Ğ, Ş, Ç) o\'tkazish' : 'O\'zbekcha matnlarni yangi lotin alifbosiga o\'tkazish'}">
                     ⚡ Yangi Alifboga O'tkazish (Ö, Ğ, Ş, Ç)
                 </button>
-                <button type="button" id="btn-auto-translate" class="django-admin-btn django-btn-primary" title="Rus, ingliz va xitoy tillariga avtomatik tarjima qilish">
+                <button type="button" id="btn-auto-translate" class="django-admin-btn django-btn-primary" title="${isList ? 'Barcha/tanlangan maqolalarni tillarga (RU, EN, ZH) avto-tarjima qilish' : 'Rus, ingliz va xitoy tillariga avtomatik tarjima qilish'}">
                     🌐 Tillarga Avto-Tarjima (RU, EN, ZH)
                 </button>
                 <button type="button" id="btn-master-all" class="django-admin-btn django-btn-master" title="Alifbo va tarjimani 1 bosishda bajarish">
@@ -81,15 +104,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // =========================================================================
-    // 3. FIELD DISCOVERY & VALUE ACCESSORS (CKEDITOR + DOM)
+    // 3. PAGE DETECTION & CHANGELIST HELPERS
+    // =========================================================================
+    function isChangelistPage() {
+        return !!document.getElementById('changelist-form') || !!document.getElementById('changelist');
+    }
+
+    function getAppAndModel() {
+        const parts = window.location.pathname.replace(/^\//, '').split('/');
+        const adminIdx = parts.indexOf('admin');
+        if (adminIdx !== -1 && parts.length > adminIdx + 2) {
+            return {
+                app: parts[adminIdx + 1],
+                model: parts[adminIdx + 2]
+            };
+        }
+        return { app: 'news', model: 'article' };
+    }
+
+    function getSelectedOrAllIds() {
+        const checked = Array.from(document.querySelectorAll('input.action-select:checked')).map(el => el.value);
+        if (checked.length > 0) return checked;
+        return Array.from(document.querySelectorAll('input.action-select')).map(el => el.value);
+    }
+
+    // =========================================================================
+    // 4. CHANGEFORM ACCESSORS (CKEDITOR + DOM)
     // =========================================================================
     function getFieldValue(name) {
-        // Try CKEditor first
         if (window.CKEDITOR && window.CKEDITOR.instances) {
             if (window.CKEDITOR.instances[name]) return window.CKEDITOR.instances[name].getData();
             if (window.CKEDITOR.instances[`id_${name}`]) return window.CKEDITOR.instances[`id_${name}`].getData();
         }
-        // Try TinyMCE
         if (window.tinymce) {
             if (window.tinymce.get(name)) return window.tinymce.get(name).getContent();
             if (window.tinymce.get(`id_${name}`)) return window.tinymce.get(`id_${name}`).getContent();
@@ -100,8 +146,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setFieldValue(name, value) {
         let set = false;
-
-        // Set in CKEditor
         if (window.CKEDITOR && window.CKEDITOR.instances) {
             if (window.CKEDITOR.instances[name]) {
                 window.CKEDITOR.instances[name].setData(value);
@@ -111,8 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 set = true;
             }
         }
-
-        // Set in TinyMCE
         if (window.tinymce) {
             if (window.tinymce.get(name)) {
                 window.tinymce.get(name).setContent(value);
@@ -122,8 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 set = true;
             }
         }
-
-        // Set in DOM input/textarea
         const el = document.getElementById(name) || document.getElementById(`id_${name}`) || document.querySelector(`[name="${name}"]`);
         if (el) {
             el.value = value;
@@ -131,20 +171,16 @@ document.addEventListener('DOMContentLoaded', function () {
             el.dispatchEvent(new Event('change', { bubbles: true }));
             set = true;
         }
-
         return set;
     }
 
     function getAllUzbekFieldIds() {
         const found = [];
-
-        // All fields ending in _uz
         document.querySelectorAll('input[id$="_uz"], textarea[id$="_uz"], input[name$="_uz"], textarea[name$="_uz"]').forEach(el => {
             const id = el.id || el.name;
             if (!found.includes(id)) found.push(id);
         });
 
-        // Common defaults in BuxDU models
         const defaults = [
             'sarlavha', 'title', 'fio', 'nomi', 'text', 'content', 'mehnat_faoliyati',
             'malaka_oshirish', 'oqitadigan_fanlari', 'ilmiy_faoliyati', 'annotatsiya', 'biografiya'
@@ -156,19 +192,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!found.includes(id)) found.push(id);
             }
         });
-
         return found;
     }
 
     // =========================================================================
-    // 4. ALPHABET TRANSLITERATION ENGINE (2026 REFORM: Ö, Ğ, Ş, Ç)
+    // 5. ALPHABET TRANSLITERATION ENGINE (2026 REFORM: Ö, Ğ, Ş, Ç)
     // =========================================================================
     const APOS = "['`ʼʻ’‘´\\u02bb\\u02bc\\u2018\\u2019]";
 
     function transliterateToNewLatin(text) {
         if (!text || typeof text !== 'string') return text;
-
-        // Preserve HTML markup if present
         if (/<[a-z][\s\S]*>/i.test(text)) {
             return text.replace(/(>|^)([^<]+)(<|$)/g, (match, prefix, content, suffix) => {
                 return prefix + convertText(content) + suffix;
@@ -202,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
         res = res.replace(/Ch/g, 'Ç');
         res = res.replace(/ch/g, 'ç');
 
-        // 5. Uzbek Cyrillic support (if pasted in Cyrillic)
+        // 5. Uzbek Cyrillic support
         const cyrMap = {
             'Ў': 'Ö', 'ў': 'ö',
             'Ғ': 'Ğ', 'ғ': 'ğ',
@@ -227,14 +260,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // =========================================================================
-    // 5. TRANSLATION ENGINE (Google GTX + Backend fallback)
+    // 6. CLIENT-SIDE TRANSLATE API
     // =========================================================================
     async function translateApi(text, targetLang) {
         if (!text || !text.trim()) return "";
-
         const encoded = encodeURIComponent(text);
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=uz&tl=${targetLang}&dt=t&q=${encoded}`;
-
         const resp = await fetch(url);
         const json = await resp.json();
         let result = "";
@@ -247,11 +278,70 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // =========================================================================
-    // 6. ACTION HANDLERS
+    // 7. CHANGELIST BULK ACTIONS (BACKEND AJAX)
+    // =========================================================================
+    async function executeChangelistBulkAction(actionType) {
+        const info = getAppAndModel();
+        const ids = getSelectedOrAllIds();
+
+        const btn = document.getElementById(
+            actionType === 'transliterate' ? 'btn-transliterate-new' :
+            actionType === 'translate' ? 'btn-auto-translate' : 'btn-master-all'
+        );
+        const originalHtml = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Bajarilmoqda...';
+        }
+
+        showAlert("⏳ Ma'lumotlar bazasi yangilanmoqda, kuting...", "info", 0);
+
+        try {
+            const resp = await fetch('/admin/buxdu_smart_admin/api/bulk-action/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') || ''
+                },
+                body: JSON.stringify({
+                    app_label: info.app,
+                    model_name: info.model,
+                    ids: ids,
+                    action_type: actionType
+                })
+            });
+
+            const data = await resp.json();
+            if (data.success) {
+                showAlert(data.message, 'success', 4000);
+                // Reload the page after 1.2s to show updated text in the table
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+            } else {
+                showAlert("❌ Xatolik: " + (data.error || "Noma'lum xatolik"), 'error');
+            }
+        } catch (err) {
+            showAlert("❌ Aloqa xatosi: " + err.message, 'error');
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+    }
+
+    // =========================================================================
+    // 8. EVENT HANDLERS
     // =========================================================================
 
-    // ACTION 1: TRANSLITERATE ALL UZBEK FIELDS
+    // ACTION 1: TRANSLITERATE
     function handleTransliterate() {
+        if (isChangelistPage()) {
+            return executeChangelistBulkAction('transliterate');
+        }
+
+        // Changeform (single item)
         const uzFields = getAllUzbekFieldIds();
         let updatedCount = 0;
 
@@ -279,8 +369,13 @@ document.addEventListener('DOMContentLoaded', function () {
         btnTranslit.addEventListener('click', handleTransliterate);
     }
 
-    // ACTION 2: AUTO-TRANSLATE TO RU, EN, ZH
+    // ACTION 2: AUTO-TRANSLATE
     async function handleTranslate() {
+        if (isChangelistPage()) {
+            return executeChangelistBulkAction('translate');
+        }
+
+        // Changeform (single item)
         const btn = document.getElementById('btn-auto-translate');
         if (btn) {
             btn.disabled = true;
@@ -296,7 +391,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const uzVal = getFieldValue(fid);
                 if (!uzVal || !uzVal.trim()) continue;
 
-                // Base field name (e.g. id_sarlavha_uz -> sarlavha)
                 const base = fid.replace(/^id_/, '').replace(/_uz$/, '');
 
                 const [ru, en, zh] = await Promise.all([
@@ -320,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } finally {
             if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = '<span class="btn-icon">🌐</span> Tillarga Avto-Tarjima (RU, EN, ZH)';
+                btn.innerHTML = '🌐 Tillarga Avto-Tarjima (RU, EN, ZH)';
             }
         }
     }
@@ -330,10 +424,13 @@ document.addEventListener('DOMContentLoaded', function () {
         btnTranslate.addEventListener('click', handleTranslate);
     }
 
-    // ACTION 3: MASTER 1-CLICK ALL
+    // ACTION 3: MASTER ALL
     const btnMaster = document.getElementById('btn-master-all');
     if (btnMaster) {
         btnMaster.addEventListener('click', async function () {
+            if (isChangelistPage()) {
+                return executeChangelistBulkAction('both');
+            }
             handleTransliterate();
             await handleTranslate();
         });
