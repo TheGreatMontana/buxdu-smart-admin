@@ -129,7 +129,7 @@ pip install -r requirements.txt
 
 # Инициализация и запуск
 cd demo_app
-python seed_demo.py
+python init_db.py
 python manage.py runserver 127.0.0.1:8000
 ```
 
