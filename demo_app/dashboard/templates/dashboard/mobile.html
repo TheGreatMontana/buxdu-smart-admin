@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="uz" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Buxoro Davlat Universiteti — Rasmiy Mobil Sayti (BuxDU)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        buxdu: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            500: '#0066cc',
+                            600: '#0052a3',
+                            700: '#003d7a',
+                            800: '#002952',
+                            900: '#001429',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .dark .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex justify-center selection:bg-buxdu-500 selection:text-white">
+
+    <!-- DEVICE CONTAINER (Max-w-md on desktop to feel like native mobile screen) -->
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden border-x border-slate-200 dark:border-slate-800">
+
+        <!-- ========================================================================= -->
+        <!-- TOPBAR / APP BAR -->
+        <!-- ========================================================================= -->
+        <header class="sticky top-0 z-40 glass-header border-b border-slate-200/80 dark:border-slate-800/80 px-4 py-3 flex items-center justify-between transition-colors">
+            
+            <!-- Brand & University Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-buxdu-600 via-sky-600 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-md shadow-buxdu-500/25 border border-white/20 flex-shrink-0">
+                    🏛️
+                </div>
+                <div class="leading-tight">
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-extrabold text-base tracking-tight text-buxdu-900 dark:text-white">BuxDU</span>
+                        <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">1930</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-[150px]">Buxoro davlat universiteti</p>
+                </div>
+            </div>
+
+            <!-- Actions (Search, Lang, Theme, Menu) -->
+            <div class="flex items-center gap-1.5">
+                <!-- Search Button -->
+                <button onclick="toggleSearch()" class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Language Selector -->
+                <div class="relative">
+                    <button onclick="toggleLangMenu()" id="btnLang" class="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700 transition">
+                        <span>🇺🇿</span>
+                        <span id="currentLangText">UZ</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-60"></i>
+                    </button>
+                    <!-- Lang Dropdown -->
+                    <div id="langDropdown" class="absolute right-0 top-10 w-28 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-1 hidden z-50 animate-in fade-in zoom-in-95 duration-100">
+                        <button onclick="setLang('uz', '🇺🇿 UZ')" class="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">🇺🇿 O'zbekcha</button>
+                        <button onclick="setLang('ru', '🇷🇺 RU')" class="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">🇷🇺 Русский</button>
+                        <button onclick="setLang('en', '🇬🇧 EN')" class="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">🇬🇧 English</button>
+                        <button onclick="setLang('zh', '🇨🇳 ZH')" class="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2">🇨🇳 中文</button>
+                    </div>
+                </div>
+
+                <!-- Dark/Light Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i data-lucide="moon" id="themeIcon" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Hamburger Drawer Trigger -->
+                <button onclick="toggleDrawer()" class="p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- LIVE SEARCH MODAL / OVERLAY -->
+        <div id="searchOverlay" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm p-4 flex flex-col items-center">
+            <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+                <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-xl px-3 py-2 border border-slate-200 dark:border-slate-700">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                    <input type="text" id="liveSearchInput" oninput="doSearch()" placeholder="Fakultet, maqola yoki xodim qidirish..." class="w-full bg-transparent text-sm focus:outline-none dark:text-white">
+                    <button onclick="toggleSearch()" class="text-slate-400 hover:text-slate-600 p-1">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <div id="searchResults" class="max-h-64 overflow-y-auto space-y-2 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+                    <p class="text-slate-400 py-3 text-center">Kalit so'z kiriting (masalan: Axborot, Filologiya, Rektor)...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- LIVE TICKER (Urgent Notice) -->
+        <!-- ========================================================================= -->
+        <div class="bg-gradient-to-r from-buxdu-600 to-indigo-700 text-white px-4 py-2 flex items-center justify-between text-xs font-medium shadow-sm">
+            <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
+                <span class="px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-bold text-[9px] uppercase tracking-wider flex-shrink-0 animate-pulse">Tezkor</span>
+                <span class="truncate">Doktoranturaga 2027-yilgi qabul hujjatlari topshirilmoqda!</span>
+            </div>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 flex-shrink-0 opacity-80"></i>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- QUICK STORIES / HIGHLIGHT SERVICES (Telegram/Insta Style Circles) -->
+        <!-- ========================================================================= -->
+        <section class="py-3 px-4 border-b border-slate-100 dark:border-slate-800/80">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tezkor xizmatlar</h3>
+                <span class="text-[11px] font-semibold text-buxdu-600 dark:text-sky-400">HEMIS &bull; Axborot</span>
+            </div>
+            <div class="flex items-center gap-3.5 overflow-x-auto no-scrollbar py-1">
+                <!-- HEMIS -->
+                <a href="https://hemis.buxdu.uz" target="_blank" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 p-0.5 shadow-md shadow-sky-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            🎓
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">HEMIS</span>
+                </a>
+
+                <!-- Rektorat -->
+                <a href="#xodimlar" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 p-0.5 shadow-md shadow-emerald-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            🏛️
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Rektorat</span>
+                </a>
+
+                <!-- Kutubxona / Books -->
+                <a href="#books" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5 shadow-md shadow-amber-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            📚
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Kutubxona</span>
+                </a>
+
+                <!-- Qabul-2027 -->
+                <a href="#qabul" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-600 p-0.5 shadow-md shadow-purple-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            📝
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Qabul-2027</span>
+                </a>
+
+                <!-- Fakultetlar -->
+                <a href="#fakultetlar" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-600 p-0.5 shadow-md shadow-rose-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            🏢
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Fakultetlar</span>
+                </a>
+
+                <!-- Grantlar -->
+                <a href="#grant" class="flex flex-col items-center gap-1.5 flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-600 p-0.5 shadow-md shadow-teal-500/20 group-hover:scale-105 transition transform">
+                        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
+                            🏆
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Grantlar</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- FEATURED HERO BANNER (Clean, High Contrast, Gorgeous) -->
+        <!-- ========================================================================= -->
+        <section class="p-4">
+            <div class="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 dark:border-slate-800 bg-slate-900 text-white aspect-[16/10]">
+                <!-- Background Image (Nano Banana 4K Generated Campus View) -->
+                <img id="heroImage" src="/campus-hero.jpg" 
+                     alt="BuxDU Bosh Binosi" class="w-full h-full object-cover opacity-85 transform hover:scale-105 transition duration-700">
+                
+                <!-- Gradient Overlay (Ensures 100% Text Legibility) -->
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+
+                <!-- Top Badge on Hero -->
+                <div class="absolute top-3.5 left-3.5 flex items-center gap-2">
+                    <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-buxdu-600/90 text-white backdrop-blur-md shadow-sm border border-white/20 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                        Asosiy Yangilik
+                    </span>
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-black/40 text-slate-200 backdrop-blur-md">
+                        Xalqaro hamkorlik
+                    </span>
+                </div>
+
+                <!-- Bottom Content on Hero -->
+                <div class="absolute bottom-4 left-4 right-4 space-y-2">
+                    <h2 class="text-base font-bold leading-snug drop-shadow-md text-white line-clamp-2">
+                        Buxoro xalqaro ilmiy tafakkur markazida: Yusuf Qoraboğiy merosi Özbekiston va Ozarbayjon olimlarini birlaştirdi
+                    </h2>
+                    <div class="flex items-center justify-between text-[11px] text-slate-300 pt-1 border-t border-white/10">
+                        <div class="flex items-center gap-3">
+                            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3.5 h-3.5 text-sky-400"></i> 180 ko'rishlar</span>
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> 24-Oktabr, 2026</span>
+                        </div>
+                        <span class="text-sky-300 font-semibold flex items-center gap-0.5">Batafsil &rarr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- SO'NGGI YANGILIKLAR (Feed with Category Chips) -->
+        <!-- ========================================================================= -->
+        <section class="px-4 space-y-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight">So'nggi yangiliklar</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Universitet hayotining eng muhim voqealari</p>
+                </div>
+                <a href="#barchasi" class="text-xs font-bold text-buxdu-600 dark:text-sky-400 hover:underline flex items-center gap-1">
+                    Barchasi <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+            <!-- Category Filter Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                <button onclick="filterNews('all')" id="chip-all" class="px-3 py-1.5 rounded-full text-xs font-bold bg-buxdu-600 text-white shadow-sm flex-shrink-0 transition">
+                    Hammasi
+                </button>
+                <button onclick="filterNews('elonlar')" id="chip-elonlar" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 transition">
+                    E'lonlar
+                </button>
+                <button onclick="filterNews('ilm-fan')" id="chip-ilm-fan" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 transition">
+                    Ilm-fan
+                </button>
+                <button onclick="filterNews('talabalar')" id="chip-talabalar" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 transition">
+                    Talabalar
+                </button>
+                <button onclick="filterNews('sport')" id="chip-sport" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 transition">
+                    Sport
+                </button>
+            </div>
+
+            <!-- NEWS FEED CARDS (NO CLUTTER, NO OVERLAPPING BUTTONS!) -->
+            <div class="space-y-3.5" id="newsFeedList">
+                
+                <!-- Card 1 -->
+                <article class="bg-white dark:bg-slate-850 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition flex gap-3.5 items-center">
+                    <div class="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=300&q=80" 
+                             alt="Dual ta'lim" class="w-full h-full object-cover">
+                        <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-600 text-white">Tadbir</span>
+                    </div>
+                    <div class="flex-1 min-w-0 space-y-1.5">
+                        <h4 class="font-bold text-xs leading-snug text-slate-900 dark:text-white line-clamp-2">
+                            BuxDUda dual ta'lim: nazariya va amaliyot uyğunligi
+                        </h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                            Talabalarning nazariy bilimlarini amaliyot bilan bog'lash bo'yicha yangi dastur joriy qilindi.
+                        </p>
+                        <div class="flex items-center gap-2 text-[10px] text-slate-400">
+                            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3 text-sky-400"></i> 19</span>
+                            <span>&bull;</span>
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3 text-amber-400"></i> 28-Oktabr, 2026</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="bg-white dark:bg-slate-850 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition flex gap-3.5 items-center">
+                    <div class="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" 
+                             alt="Dissertatsiya" class="w-full h-full object-cover">
+                        <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-600 text-white">E'lon</span>
+                    </div>
+                    <div class="flex-1 min-w-0 space-y-1.5">
+                        <h4 class="font-bold text-xs leading-snug text-slate-900 dark:text-white line-clamp-2">
+                            Maxmudova Sadoqat Xolmatovnaning filologiya fanlari doktori (DSc) dissertatsiya işi himoyasi
+                        </h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                            Yangi o‘zbek ijtimoiy she’riyatining poetik taraqqiyot xususiyatlari mavzusida.
+                        </p>
+                        <div class="flex items-center gap-2 text-[10px] text-slate-400">
+                            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3 text-sky-400"></i> 56</span>
+                            <span>&bull;</span>
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3 text-amber-400"></i> 27-Oktabr, 2026</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="bg-white dark:bg-slate-850 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition flex gap-3.5 items-center">
+                    <div class="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0 relative">
+                        <img src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=300&q=80" 
+                             alt="Psixolog treningi" class="w-full h-full object-cover">
+                        <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-600 text-white">Yoshlar</span>
+                    </div>
+                    <div class="flex-1 min-w-0 space-y-1.5">
+                        <h4 class="font-bold text-xs leading-snug text-slate-900 dark:text-white line-clamp-2">
+                            BuxDU amaliyotchi psixologi tomonidan birinchi kurs talabalari bilan seminar-trening tashkil etildi
+                        </h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                            Talabalarning universitet muhitiga tezroq moslashishi bo'yicha interaktiv mashg'ulotlar.
+                        </p>
+                        <div class="flex items-center gap-2 text-[10px] text-slate-400">
+                            <span class="flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3 text-sky-400"></i> 22</span>
+                            <span>&bull;</span>
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3 text-amber-400"></i> 26-Oktabr, 2026</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- UNIVERSITY ACHIEVEMENTS & STATS -->
+        <!-- ========================================================================= -->
+        <section class="p-4">
+            <div class="bg-gradient-to-br from-buxdu-900 via-slate-900 to-indigo-950 rounded-3xl p-5 text-white shadow-xl border border-buxdu-800/50 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">BUXDU RAQAMLARDA</span>
+                        <h3 class="text-sm font-bold text-white mt-1">Yetakchi Milliy Universitet</h3>
+                    </div>
+                    <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-amber-300 font-bold">
+                        🏆
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-white/5 rounded-2xl p-3 border border-white/5">
+                        <p class="text-xl font-extrabold text-sky-400 font-mono">25 000+</p>
+                        <p class="text-[11px] text-slate-300 mt-0.5 font-medium">Faol Talabalar</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-3 border border-white/5">
+                        <p class="text-xl font-extrabold text-emerald-400 font-mono">1 200+</p>
+                        <p class="text-[11px] text-slate-300 mt-0.5 font-medium">Professorlar</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-3 border border-white/5">
+                        <p class="text-xl font-extrabold text-amber-400 font-mono">12</p>
+                        <p class="text-[11px] text-slate-300 mt-0.5 font-medium">Fakultetlar</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-3 border border-white/5">
+                        <p class="text-xl font-extrabold text-purple-400 font-mono">Top-1000</p>
+                        <p class="text-[11px] text-slate-300 mt-0.5 font-medium">Xalqaro Reyting</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- FAKULTETLAR (Interactive Quick Cards) -->
+        <!-- ========================================================================= -->
+        <section class="px-4 space-y-3 pb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight">Fakultetlar</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Mutaxassisliklar va ta'lim yo'nalishlari</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-2 hover:border-buxdu-500 transition">
+                    <span class="text-2xl">💻</span>
+                    <h4 class="font-bold text-xs text-slate-900 dark:text-white leading-tight">Axborot texnologiyalari fakulteti</h4>
+                    <span class="text-[10px] text-sky-600 dark:text-sky-400 font-semibold block">6 ta yo'nalish &rarr;</span>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-2 hover:border-buxdu-500 transition">
+                    <span class="text-2xl">🌐</span>
+                    <h4 class="font-bold text-xs text-slate-900 dark:text-white leading-tight">Xorijiy tillar fakulteti</h4>
+                    <span class="text-[10px] text-sky-600 dark:text-sky-400 font-semibold block">8 ta yo'nalish &rarr;</span>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-2 hover:border-buxdu-500 transition">
+                    <span class="text-2xl">⚖️</span>
+                    <h4 class="font-bold text-xs text-slate-900 dark:text-white leading-tight">Yuridik fakulteti</h4>
+                    <span class="text-[10px] text-sky-600 dark:text-sky-400 font-semibold block">4 ta yo'nalish &rarr;</span>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 space-y-2 hover:border-buxdu-500 transition">
+                    <span class="text-2xl">📊</span>
+                    <h4 class="font-bold text-xs text-slate-900 dark:text-white leading-tight">Iqtisodiyot va turizm fakulteti</h4>
+                    <span class="text-[10px] text-sky-600 dark:text-sky-400 font-semibold block">5 ta yo'nalish &rarr;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- CLEAN SPEED-DIAL FLOATING ACTION BUTTON (REPLACES THE HORRIBLE VERTICAL BAR) -->
+        <!-- ========================================================================= -->
+        <div class="fixed bottom-20 right-5 z-40 flex flex-col items-end gap-2.5">
+            <!-- Expandable Social Buttons (Hidden by default, smooth animated pop-in) -->
+            <div id="socialSpeedDial" class="hidden flex-col items-end gap-2 transition duration-200">
+                <!-- Telegram -->
+                <a href="https://t.me/buxdu_uz" target="_blank" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500 text-white text-xs font-semibold shadow-lg hover:brightness-110 transition">
+                    <span>Telegram</span>
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                </a>
+                <!-- Instagram -->
+                <a href="https://instagram.com/buxdu.uz" target="_blank" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-600 text-white text-xs font-semibold shadow-lg hover:brightness-110 transition">
+                    <span>Instagram</span>
+                    <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                </a>
+                <!-- YouTube -->
+                <a href="https://youtube.com/buxdu" target="_blank" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-semibold shadow-lg hover:brightness-110 transition">
+                    <span>YouTube</span>
+                    <i data-lucide="youtube" class="w-3.5 h-3.5"></i>
+                </a>
+                <!-- Facebook -->
+                <a href="https://facebook.com/buxdu.uz" target="_blank" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-600 text-white text-xs font-semibold shadow-lg hover:brightness-110 transition">
+                    <span>Facebook</span>
+                    <i data-lucide="facebook" class="w-3.5 h-3.5"></i>
+                </a>
+                <!-- Email -->
+                <a href="mailto:buxdu_rektor@buxdu.uz" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800 text-white text-xs font-semibold shadow-lg hover:brightness-110 transition">
+                    <span>Elektron pochta</span>
+                    <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+            <!-- Master Floating Trigger Button -->
+            <button onclick="toggleSpeedDial()" id="btnFab" 
+                    class="w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-tr from-buxdu-600 to-indigo-600 text-white shadow-xl shadow-buxdu-600/40 border border-white/20 flex items-center justify-center transform active:scale-95 transition">
+                <i data-lucide="share-2" id="fabIcon" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- APP-LIKE BOTTOM NAVIGATION BAR -->
+        <!-- ========================================================================= -->
+        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 glass-header border-t border-slate-200/80 dark:border-slate-800/80 px-4 py-2 flex items-center justify-around">
+            <!-- Home -->
+            <button class="flex flex-col items-center gap-1 text-buxdu-600 dark:text-sky-400">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span class="text-[10px] font-bold">Asosiy</span>
+            </button>
+
+            <!-- News -->
+            <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i data-lucide="newspaper" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Yangiliklar</span>
+            </button>
+
+            <!-- HEMIS -->
+            <a href="https://hemis.buxdu.uz" target="_blank" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold text-xs">
+                    H
+                </div>
+                <span class="text-[10px] font-medium">HEMIS</span>
+            </a>
+
+            <!-- Books -->
+            <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Kitoblar</span>
+            </button>
+
+            <!-- Menu -->
+            <button onclick="toggleDrawer()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Menyu</span>
+            </button>
+        </nav>
+
+        <!-- ========================================================================= -->
+        <!-- SLIDE-OVER NAVIGATION DRAWER -->
+        <!-- ========================================================================= -->
+        <div id="drawerBackdrop" onclick="toggleDrawer()" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm transition-opacity"></div>
+        <aside id="sideDrawer" class="fixed top-0 bottom-0 left-0 w-80 max-w-[85vw] z-50 bg-white dark:bg-slate-900 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between p-5 border-r border-slate-200 dark:border-slate-800">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-buxdu-600 text-white flex items-center justify-center font-bold text-base shadow">
+                            🏛️
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white">BuxDU Menyusi</h4>
+                            <p class="text-[11px] text-slate-400">Rasmiy sayt bo'limlari</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleDrawer()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <nav class="space-y-1 text-sm font-medium">
+                    <a href="#universitet" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="building-2" class="w-4 h-4 text-buxdu-600 dark:text-sky-400"></i>
+                        <span>Universitet haqida</span>
+                    </a>
+                    <a href="#tuzilma" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="sitemap" class="w-4 h-4 text-emerald-500"></i>
+                        <span>Tashkiliy tuzilma va Rektorat</span>
+                    </a>
+                    <a href="#fakultetlar" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-500"></i>
+                        <span>Fakultet va Kafedralar</span>
+                    </a>
+                    <a href="#ilm-fan" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="microscope" class="w-4 h-4 text-indigo-500"></i>
+                        <span>Ilmiy faoliyat & Jurnallar</span>
+                    </a>
+                    <a href="#qabul" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="file-text" class="w-4 h-4 text-amber-500"></i>
+                        <span>Qabul komissiyasi 2026/2027</span>
+                    </a>
+                    <a href="#talabalar" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="users" class="w-4 h-4 text-rose-500"></i>
+                        <span>Talabalar hayoti & Yotoqxona</span>
+                    </a>
+                    <a href="#xalqaro" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i data-lucide="globe" class="w-4 h-4 text-teal-500"></i>
+                        <span>Xalqaro aloqalar</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+                <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200/60 dark:border-slate-700/50">
+                    <p class="text-xs font-bold text-slate-900 dark:text-white">Call-markaz (Aloqa):</p>
+                    <p class="text-xs text-buxdu-600 dark:text-sky-400 font-mono mt-0.5">+998 (65) 221-29-14</p>
+                    <p class="text-[11px] text-slate-400 truncate">buxdu_rektor@buxdu.uz</p>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- JAVASCRIPT CONTROLLERS -->
+    <script>
+        // Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            // Check saved theme
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        });
+
+        // Theme Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Lang Menu
+        function toggleLangMenu() {
+            document.getElementById('langDropdown').classList.toggle('hidden');
+        }
+
+        function setLang(code, label) {
+            document.getElementById('currentLangText').textContent = code.toUpperCase();
+            document.getElementById('btnLang').querySelector('span:first-child').textContent = label.split(' ')[0];
+            toggleLangMenu();
+        }
+
+        // Drawer
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const backdrop = document.getElementById('drawerBackdrop');
+            const isOpen = !drawer.classList.contains('-translate-x-full');
+            if (isOpen) {
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            } else {
+                drawer.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            }
+        }
+
+        // Search Overlay
+        function toggleSearch() {
+            const overlay = document.getElementById('searchOverlay');
+            overlay.classList.toggle('hidden');
+            if (!overlay.classList.contains('hidden')) {
+                document.getElementById('liveSearchInput').focus();
+            }
+        }
+
+        function doSearch() {
+            const q = document.getElementById('liveSearchInput').value.toLowerCase().trim();
+            const res = document.getElementById('searchResults');
+            if (!q) {
+                res.innerHTML = '<p class="text-slate-400 py-3 text-center">Kalit so\'z kiriting...</p>';
+                return;
+            }
+            const sampleData = [
+                { title: "Axborot texnologiyalari fakulteti", type: "Fakultet" },
+                { title: "BuxDUda dual ta'lim: nazariya va amaliyot uyğunligi", type: "Yangilik" },
+                { title: "Filologiya fanlari bo'yicha dissertatsiya himoyasi", type: "E'lon" },
+                { title: "Xamidov Obidjon Xafizovich (Rektor)", type: "Rahbariyat" },
+                { title: "Xorijiy tillar fakulteti", type: "Fakultet" },
+                { title: "HEMIS talabalar axborot tizimi", type: "Xizmat" }
+            ];
+            const matches = sampleData.filter(d => d.title.toLowerCase().includes(q) || d.type.toLowerCase().includes(q));
+            if (matches.length === 0) {
+                res.innerHTML = '<p class="text-slate-400 py-3 text-center">Hech narsa topilmadi</p>';
+            } else {
+                res.innerHTML = matches.map(m => `
+                    <div class="py-2 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 px-2 rounded-lg cursor-pointer">
+                        <span class="font-medium text-slate-800 dark:text-slate-200">${m.title}</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">${m.type}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Speed Dial Toggle
+        let speedDialOpen = false;
+        function toggleSpeedDial() {
+            speedDialOpen = !speedDialOpen;
+            const container = document.getElementById('socialSpeedDial');
+            const icon = document.getElementById('fabIcon');
+            if (speedDialOpen) {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                container.classList.add('hidden');
+                container.classList.remove('flex');
+                icon.setAttribute('data-lucide', 'share-2');
+            }
+            lucide.createIcons();
+        }
+
+        // News Category Filter
+        function filterNews(cat) {
+            ['all', 'elonlar', 'ilm-fan', 'talabalar', 'sport'].forEach(c => {
+                const btn = document.getElementById(`chip-${c}`);
+                if (btn) {
+                    if (c === cat) {
+                        btn.className = "px-3 py-1.5 rounded-full text-xs font-bold bg-buxdu-600 text-white shadow-sm flex-shrink-0 transition";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 transition";
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="uz" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuxDU Media Studio Pro — admin.buxdu.uz (MAIN App)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        buxdu: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#082f49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .tab-active { border-bottom: 2px solid #0284c7; color: #0284c7; font-weight: 700; }
+        .sidebar-active { background-color: #0284c7 !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); }
+        .sidebar-active i { color: #ffffff !important; }
+        .sidebar-active span.badge { background-color: rgba(255, 255, 255, 0.25) !important; color: #ffffff !important; }
+    </style>
+</head>
+<body class="h-full flex flex-col md:flex-row text-slate-100 antialiased selection:bg-buxdu-500 selection:text-white bg-slate-950">
+
+    <!-- SIDEBAR: EXACT BUXDU.UZ 'MAIN' APP -->
+    <aside class="w-full md:w-80 bg-slate-900 text-slate-300 flex flex-col justify-between p-5 border-r border-slate-800 flex-shrink-0">
+        <div>
+            <!-- Brand -->
+            <div class="flex items-center gap-3 px-2 py-3 mb-5 border-b border-slate-800">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-sky-500/20">
+                    B
+                </div>
+                <div>
+                    <h1 class="text-white font-bold text-base leading-tight">BuxDU Media Studio</h1>
+                    <span class="text-xs text-sky-400 flex items-center gap-1.5 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        admin.buxdu.uz &bull; Pro Panel
+                    </span>
+                </div>
+            </div>
+
+            <!-- EXACT 8 MODELS FROM 'MAIN' APP -->
+            <div class="space-y-4">
+                <div>
+                    <div class="flex items-center justify-between px-3 mb-2">
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">MAIN (Boshqaruv)</p>
+                        <span class="text-[10px] font-semibold text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded-full border border-sky-800/50">8 ta bo'lim</span>
+                    </div>
+
+                    <nav class="space-y-1" id="sidebarNav">
+                        <!-- 1. MATERIALLAR -->
+                        <button onclick="selectModel('materials')" id="nav-materials" class="sidebar-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="newspaper" class="w-4 h-4 text-sky-400"></i>
+                                <span>Materiallar</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-materials">0</span>
+                        </button>
+
+                        <!-- 2. XODIMLAR -->
+                        <button onclick="selectModel('xodimlar')" id="nav-xodimlar" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+                                <span>Xodimlar</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-xodimlar">0</span>
+                        </button>
+
+                        <!-- 3. BOOKS -->
+                        <button onclick="selectModel('books')" id="nav-books" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="book-open" class="w-4 h-4 text-amber-400"></i>
+                                <span>Books</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-books">0</span>
+                        </button>
+
+                        <!-- 4. KATEGORIYALAR -->
+                        <button onclick="selectModel('kategoriyalar')" id="nav-kategoriyalar" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="tag" class="w-4 h-4 text-purple-400"></i>
+                                <span>Kategoriyalar</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-kategoriyalar">0</span>
+                        </button>
+
+                        <!-- 5. LAVOZIMLAR -->
+                        <button onclick="selectModel('lavozimlar')" id="nav-lavozimlar" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-indigo-400"></i>
+                                <span>Lavozimlar</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-lavozimlar">0</span>
+                        </button>
+
+                        <!-- 6. MATERIAL TURLARI -->
+                        <button onclick="selectModel('materialturlari')" id="nav-materialturlari" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="layers" class="w-4 h-4 text-rose-400"></i>
+                                <span>Material turilari</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-materialturlari">0</span>
+                        </button>
+
+                        <!-- 7. MENU -->
+                        <button onclick="selectModel('menus')" id="nav-menus" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="compass" class="w-4 h-4 text-teal-400"></i>
+                                <span>Menu</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-menus">0</span>
+                        </button>
+
+                        <!-- 8. PHOTO CONTENTS -->
+                        <button onclick="selectModel('photos')" id="nav-photos" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="image" class="w-4 h-4 text-cyan-400"></i>
+                                <span>Photo contents</span>
+                            </div>
+                            <span class="badge text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300" id="badge-photos">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="pt-2">
+                    <p class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Tizim va Yordam</p>
+                    <a href="/mobile/" target="_blank" class="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-800/50 text-purple-300 hover:text-white font-medium text-xs transition mb-1.5">
+                        <i data-lucide="smartphone" class="w-4 h-4 text-purple-400"></i>
+                        <span>Yangi Mobil Sayt (Redesign)</span>
+                        <span class="text-[9px] font-bold px-1.5 py-0.2 bg-purple-500 text-white rounded-full ml-auto">PRO</span>
+                    </a>
+                    <a href="/admin/" target="_blank" class="flex items-center gap-3 px-3.5 py-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white font-medium text-xs transition">
+                        <i data-lucide="database" class="w-4 h-4 text-amber-400"></i>
+                        <span>Eski Django Admin Paneli</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5 ml-auto opacity-50"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- User profile card -->
+        <div class="pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/50">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow">
+                    👩‍💼
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-white truncate">Administrator</p>
+                    <p class="text-xs text-sky-400 truncate">buxdu_admin@buxdu.uz</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-950 text-slate-100">
+        
+        <!-- TOPBAR -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-30 px-6 py-4 flex items-center justify-between gap-4 shadow-md">
+            <div class="flex items-center gap-4 flex-1 max-w-xl">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" oninput="filterCurrentTable()" placeholder="Ushbu bo'lim bo'yicha tezkor qidirish..." 
+                           class="w-full pl-10 pr-4 py-2 text-sm bg-slate-800 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-slate-900 transition placeholder:text-slate-500">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- MOBILE REDESIGN PREVIEW BUTTON -->
+                <a href="/mobile/" target="_blank" class="flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-md transition">
+                    <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+                    <span>📱 Mobil Sayt (Redesign)</span>
+                </a>
+
+                <!-- BULK TRANSLITERATE BUTTON -->
+                <button type="button" onclick="runBulkTransliterate()" id="btnBulkTranslit"
+                        class="hidden sm:flex items-center gap-2 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <span>Ommaviy Alifbo Yangilash (Bazada)</span>
+                </button>
+
+                <!-- ADD NEW BUTTON -->
+                <button onclick="openCreateModal()" class="flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-semibold shadow-sm shadow-sky-600/30 transition transform hover:-translate-y-0.5">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span id="btnCreateText">+ Qo'shish</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="p-6 md:p-8 max-w-7xl mx-auto w-full space-y-6">
+
+            <!-- HEADER INFO BANNER -->
+            <div class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 rounded-2xl p-6 border border-slate-800 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1.5">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30">MAIN APP</span>
+                        <span class="text-xs text-emerald-400 font-medium">⚡ 2026 Alifbo Reformasi: Ö, Ğ, Ş, Ç</span>
+                    </div>
+                    <h2 class="text-xl font-bold" id="pageTitle">Materiallar</h2>
+                    <p class="text-xs text-slate-400 mt-1" id="pageSubtitle">BuxDU rasmiy saytining barcha materiallari, yangiliklari va maqolalari</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="loadCurrentModelData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 border border-slate-700 transition">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                        Yangilash
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABLE CONTAINER -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-bold text-sm text-white" id="tableTitle">Yozuvlar ro'yxati</h3>
+                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-sky-400 border border-slate-700" id="itemCountBadge">0 ta</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-950/60 text-xs text-slate-400 uppercase font-semibold border-b border-slate-800" id="tableHead">
+                            <!-- Injected dynamically -->
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-slate-800/80">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- SENIOR UNIVERSAL SMART EDITOR MODAL -->
+    <!-- ========================================================================= -->
+    <div id="smartModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 text-slate-100 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            
+            <!-- MODAL HEADER -->
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-950 text-sky-400 border border-sky-800/50 flex items-center justify-center">
+                        <i data-lucide="edit-3" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base" id="modalTitle">Yangi yozuv yaratish</h3>
+                        <p class="text-xs text-slate-400">O'zbekcha yozing, sun'iy intellekt alifboga va 3 tilga tarjima qilib beradi</p>
+                    </div>
+                </div>
+                <button onclick="closeSmartModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- MAGIC TOOLBAR (Ö, Ğ, Ş, Ç & 3 TILLARGA TARJIMA) -->
+            <div class="px-6 py-3 bg-slate-950 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-sky-950 text-sky-300 border border-sky-800/50">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        BuxDU AI Assistant
+                    </span>
+                    <span class="text-xs text-slate-400 hidden sm:inline">2026 Alifbo (Ö, Ğ, Ş, Ç) & Avto-Tarjimon</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- MASTER 1-CLICK BUTTON -->
+                    <button type="button" onclick="actionMasterAllInOne()" id="btnModalMaster"
+                            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-sky-600 hover:from-indigo-500 hover:to-sky-500 text-white text-xs font-bold shadow-md transition">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>🚀 1-BOSISHDA HAMMASI (Alifbo + 3 Til)</span>
+                    </button>
+
+                    <!-- TRANSLITERATE BUTTON -->
+                    <button type="button" onclick="actionTransliterateModal()" id="btnModalTranslit"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+                        <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                        <span>Alifbo (Ö, Ğ, Ş, Ç)</span>
+                    </button>
+
+                    <!-- AI TRANSLATE BUTTON -->
+                    <button type="button" onclick="actionTranslateModal()" id="btnModalTranslate"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                        <span>3 Tilda Tarjima</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODAL FORM BODY -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-5 bg-slate-900">
+                
+                <!-- MULTILINGUAL TABS -->
+                <div class="border-b border-slate-800" id="modalLangTabsContainer">
+                    <nav class="flex space-x-6 text-sm">
+                        <button type="button" onclick="switchModalLang('uz')" id="tab-uz" class="tab-active pb-3 flex items-center gap-2 transition">
+                            <span class="text-base">🇺🇿</span> O'zbek tili (Asosiy)
+                        </button>
+                        <button type="button" onclick="switchModalLang('ru')" id="tab-ru" class="text-slate-400 hover:text-slate-200 pb-3 flex items-center gap-2 transition">
+                            <span class="text-base">🇷🇺</span> Русский
+                            <span id="badge-ru" class="w-2 h-2 rounded-full bg-slate-600"></span>
+                        </button>
+                        <button type="button" onclick="switchModalLang('en')" id="tab-en" class="text-slate-400 hover:text-slate-200 pb-3 flex items-center gap-2 transition">
+                            <span class="text-base">🇬🇧</span> Ingliz tili (English)
+                            <span id="badge-en" class="w-2 h-2 rounded-full bg-slate-600"></span>
+                        </button>
+                        <button type="button" onclick="switchModalLang('zh')" id="tab-zh" class="text-slate-400 hover:text-slate-200 pb-3 flex items-center gap-2 transition">
+                            <span class="text-base">🇨🇳</span> Xitoycha (中文)
+                            <span id="badge-zh" class="w-2 h-2 rounded-full bg-slate-600"></span>
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- DYNAMIC FIELDS CONTAINER -->
+                <form id="universalForm" onsubmit="submitUniversalForm(event)" class="space-y-4">
+                    <input type="hidden" id="editItemId" value="">
+                    <div id="dynamicFormFields" class="space-y-4">
+                        <!-- Injected dynamically based on active model -->
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- MODAL FOOTER -->
+            <div class="px-6 py-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between flex-shrink-0">
+                <span class="text-xs text-slate-400">Barcha o'zgarishlar bevosita buxdu.uz bazasiga yoziladi</span>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="closeSmartModal()" class="px-4 py-2 border border-slate-700 rounded-xl text-sm font-semibold text-slate-300 hover:bg-slate-800 transition">
+                        Bekor qilish
+                    </button>
+                    <button type="button" onclick="document.getElementById('universalForm').requestSubmit()" id="btnModalSave"
+                            class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-sm font-semibold shadow-sm transition flex items-center gap-2">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Bazaga Saqlash</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition duration-300 ease-out translate-y-24 opacity-0 pointer-events-none">
+        <div class="bg-slate-800 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+            <span id="toastIcon">✨</span>
+            <span id="toastMessage" class="text-sm font-medium">Xabar</span>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CONTROLLER -->
+    <script>
+        let currentModel = 'materials';
+        let currentModelItems = [];
+        let currentModalLang = 'uz';
+
+        const MODEL_CONFIGS = {
+            'materials': {
+                title: "Materiallar",
+                subtitle: "BuxDU saytining asosiy maqolalari, yangiliklari va e'lonlari",
+                btnText: "+ Yangi Material qo'shish",
+                columns: [
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'category', label: 'Category', render: m => `<span class="px-2 py-0.5 rounded-md text-xs font-medium bg-slate-800 text-sky-400 border border-slate-700">${escapeHtml(m.category || "E'lonlar")}</span>` },
+                    { key: 'slug', label: 'Slug', class: 'text-xs font-mono text-slate-400' },
+                    { key: 'owner', label: 'Owner', class: 'text-xs text-slate-300' },
+                    { key: 'author', label: 'Author', class: 'text-xs text-slate-400' },
+                    { key: 'views_count', label: "Ko'rishlar", render: m => `<span class="text-xs text-slate-300 font-mono">${m.views_count || 0}</span>` },
+                    { key: 'sana', label: 'Sana', class: 'text-xs text-slate-400' }
+                ],
+                hasLangTabs: true
+            },
+            'xodimlar': {
+                title: "Xodimlar",
+                subtitle: "Universitet rahbariyati, dekanlar, kafedra mudirlari va professor-o'qituvchilar",
+                btnText: "+ Yangi Xodim qo'shish",
+                columns: [
+                    { key: 'fio_uz', label: 'FIO', class: 'font-semibold text-white' },
+                    { key: 'category', label: 'Category', render: x => `<span class="text-xs text-slate-300">${escapeHtml(x.category || '-')}</span>` },
+                    { key: 'lavozim', label: 'Lavozim', render: x => `<span class="px-2 py-0.5 rounded-md text-xs bg-sky-950 text-sky-300 border border-sky-800/50">${escapeHtml(x.lavozim || '-')}</span>` },
+                    { key: 'slug', label: 'Slug', class: 'text-xs font-mono text-slate-400' },
+                    { key: 'id', label: 'ID', class: 'text-xs font-mono text-slate-500' }
+                ],
+                hasLangTabs: true
+            },
+            'books': {
+                title: "Books",
+                subtitle: "Konferensiya to'plamlari, monografiyalar va avtoreferatlar elektron bazasi",
+                btnText: "+ Yangi Book qo'shish",
+                columns: [
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'category', label: 'Category', render: b => `<span class="text-xs text-amber-400">${escapeHtml(b.category || 'Konferensiya to\'plamlari')}</span>` },
+                    { key: 'url', label: 'Url', class: 'text-xs font-mono text-slate-400' },
+                    { key: 'nashr_yili', label: 'Yil', render: b => `<span class="text-xs font-bold text-sky-400">${b.nashr_yili || 2026}</span>` },
+                    { key: 'sahifalar_soni', label: 'Sahifalar', class: 'text-xs text-slate-400 font-mono' }
+                ],
+                hasLangTabs: true
+            },
+            'kategoriyalar': {
+                title: "Kategoriyalar",
+                subtitle: "Fakultetlar, kafedralar, markazlar va mavzuiy kategoriyalar iyerarxiyasi",
+                btnText: "+ Yangi Kategoriya",
+                columns: [
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'slug', label: 'Slug', class: 'text-xs font-mono text-slate-400' },
+                    { key: 'parent', label: 'Parent', class: 'text-xs text-slate-400' },
+                    { key: 'folder_path', label: 'Folder path', class: 'text-xs font-mono text-slate-400' }
+                ],
+                hasLangTabs: true
+            },
+            'lavozimlar': {
+                title: "Lavozimlar",
+                subtitle: "Tashkiliy tuzilma va xodimlar iyerarxik lavozimlari",
+                btnText: "+ Yangi Lavozim",
+                columns: [
+                    { key: 'title_uz', label: 'Title', class: 'font-semibold text-white' },
+                    { key: 'level', label: 'Level', render: l => `<span class="px-2 py-0.5 rounded text-xs bg-slate-800 text-sky-300 font-mono">${l.level || 0}</span>` }
+                ],
+                hasLangTabs: true
+            },
+            'materialturlari': {
+                title: "Material turilari",
+                subtitle: "Yangiliklar va materiallar uchun turlar (Sport, Granti, Hamkorlik va b.)",
+                btnText: "+ Yangi Tur",
+                columns: [
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'slug', label: 'Slug', class: 'text-xs font-mono text-slate-400' }
+                ],
+                hasLangTabs: true
+            },
+            'menus': {
+                title: "Menu",
+                subtitle: "BuxDU rasmiy saytining asosiy menyu navigatsiyasi va iyerarxiyasi",
+                btnText: "+ Yangi Menyu",
+                columns: [
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'slug', label: 'Slug', class: 'text-xs font-mono text-slate-400' },
+                    { key: 'parent', label: 'Parent', class: 'text-xs text-slate-400' },
+                    { key: 'type', label: 'Type', render: m => `<span class="text-xs text-sky-400">${escapeHtml(m.type || 'Материал')}</span>` },
+                    { key: 'position', label: 'Position', class: 'text-xs text-slate-400' },
+                    { key: 'url', label: 'Url', class: 'text-xs font-mono text-slate-400' }
+                ],
+                hasLangTabs: true
+            },
+            'photos': {
+                title: "Photo contents",
+                subtitle: "Materiallarga bog'langan fotogalereyalar va albomlar",
+                btnText: "+ Yangi Foto qo'shish",
+                columns: [
+                    { key: 'id', label: 'ID', class: 'text-xs font-mono text-slate-500' },
+                    { key: 'sarlavha_uz', label: 'Sarlavha', class: 'font-semibold text-white' },
+                    { key: 'article', label: 'Article', class: 'text-xs text-slate-400' },
+                    { key: 'photo', label: 'Photo', render: p => `<span class="text-xs text-sky-400">${escapeHtml(p.photo || 'rasm')}</span>` }
+                ],
+                hasLangTabs: false
+            }
+        };
+
+        // Instant Transliteration Engine (Ö, Ğ, Ş, Ç)
+        function transliterateText(text) {
+            if (!text) return text;
+            const apos = "['`ʼʻ’‘´\\u02bb\\u02bc\\u2018\\u2019]";
+            let res = text;
+            res = res.replace(new RegExp(`([Ss])${apos}([Hh])`, 'g'), '$1__SEP__$2');
+            res = res.replace(new RegExp(`G${apos}`, 'g'), 'Ğ');
+            res = res.replace(new RegExp(`g${apos}`, 'g'), 'ğ');
+            res = res.replace(new RegExp(`O${apos}`, 'g'), 'Ö');
+            res = res.replace(new RegExp(`o${apos}`, 'g'), 'ö');
+            res = res.replace(/\bSH\b/g, 'Ş');
+            res = res.replace(/Sh/g, 'Ş');
+            res = res.replace(/sh/g, 'ş');
+            res = res.replace(/\bCH\b/g, 'Ç');
+            res = res.replace(/Ch/g, 'Ç');
+            res = res.replace(/ch/g, 'ç');
+            res = res.replace(/__SEP__/g, "'");
+            return res;
+        }
+
+        function showToast(msg, icon = '✨', duration = 3500) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            document.getElementById('toastIcon').textContent = icon;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, duration);
+        }
+
+        function selectModel(modelName) {
+            currentModel = modelName;
+            Object.keys(MODEL_CONFIGS).forEach(m => {
+                const btn = document.getElementById(`nav-${m}`);
+                if (btn) {
+                    if (m === modelName) {
+                        btn.className = "sidebar-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-white font-medium text-sm transition";
+                    } else {
+                        btn.className = "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition";
+                    }
+                }
+            });
+
+            const cfg = MODEL_CONFIGS[modelName];
+            document.getElementById('pageTitle').textContent = cfg.title;
+            document.getElementById('pageSubtitle').textContent = cfg.subtitle;
+            document.getElementById('btnCreateText').textContent = cfg.btnText;
+            document.getElementById('tableTitle').textContent = `${cfg.title} ro'yxati`;
+
+            loadCurrentModelData();
+        }
+
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/stats/');
+                const d = await res.json();
+                if (d.success) {
+                    Object.keys(d.stats).forEach(k => {
+                        const b = document.getElementById(`badge-${k}`);
+                        if (b) b.textContent = d.stats[k];
+                    });
+                }
+            } catch (e) {}
+        }
+
+        async function loadCurrentModelData() {
+            try {
+                const res = await fetch(`/api/${currentModel}/`);
+                const d = await res.json();
+                if (d.success) {
+                    currentModelItems = d.items || d[currentModel] || [];
+                    document.getElementById('itemCountBadge').textContent = `${currentModelItems.length} ta`;
+                    renderCurrentTable(currentModelItems);
+                    loadStats();
+                }
+            } catch (e) {
+                console.error("Load error", e);
+            }
+        }
+
+        function renderCurrentTable(items) {
+            const thead = document.getElementById('tableHead');
+            const tbody = document.getElementById('tableBody');
+            const cfg = MODEL_CONFIGS[currentModel];
+
+            thead.innerHTML = `
+                <tr>
+                    ${cfg.columns.map(c => `<th class="px-6 py-3.5">${c.label}</th>`).join('')}
+                    <th class="px-6 py-3.5 text-right">Amallar</th>
+                </tr>
+            `;
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${cfg.columns.length + 1}" class="px-6 py-12 text-center text-slate-500">Hech qanday ma'lumot topilmadi. Yuqoridagi "+ Qo'shish" tugmasini bosing!</td></tr>`;
+                lucide.createIcons();
+                return;
+            }
+
+            tbody.innerHTML = items.map(item => `
+                <tr class="hover:bg-slate-850 transition group border-b border-slate-800">
+                    ${cfg.columns.map(c => `
+                        <td class="px-6 py-4 ${c.class || ''}">
+                            ${c.render ? c.render(item) : escapeHtml(item[c.key] || '-')}
+                        </td>
+                    `).join('')}
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-1.5">
+                            <button onclick="openEditModal(${item.id})" class="p-1.5 text-slate-400 hover:text-sky-400 hover:bg-slate-800 rounded-lg transition" title="Tahrirlash">
+                                <i data-lucide="edit" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deleteCurrentItem(${item.id})" class="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition" title="O'chirish">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function filterCurrentTable() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!q) { renderCurrentTable(currentModelItems); return; }
+            const filtered = currentModelItems.filter(item => JSON.stringify(item).toLowerCase().includes(q));
+            renderCurrentTable(filtered);
+        }
+
+        // =====================================================================
+        // SMART DYNAMIC MODAL GENERATOR (100% MATCHING BUXDU SCREENS)
+        // =====================================================================
+        function openCreateModal() {
+            document.getElementById('modalTitle').textContent = `Yangi ${MODEL_CONFIGS[currentModel].title} qo'shish`;
+            document.getElementById('editItemId').value = "";
+            renderModalFields({});
+            document.getElementById('smartModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        async function openEditModal(id) {
+            try {
+                const res = await fetch(`/api/${currentModel}/${id}/`);
+                const d = await res.json();
+                if (d.success) {
+                    document.getElementById('modalTitle').textContent = `${MODEL_CONFIGS[currentModel].title}ni tahrirlash #${id}`;
+                    document.getElementById('editItemId').value = id;
+                    renderModalFields(d.item);
+                    document.getElementById('smartModal').classList.remove('hidden');
+                    lucide.createIcons();
+                }
+            } catch (e) {
+                console.error("Open edit error", e);
+            }
+        }
+
+        function closeSmartModal() {
+            document.getElementById('smartModal').classList.add('hidden');
+        }
+
+        function renderModalFields(data) {
+            const container = document.getElementById('dynamicFormFields');
+            const hasLang = MODEL_CONFIGS[currentModel].hasLangTabs;
+            document.getElementById('modalLangTabsContainer').style.display = hasLang ? 'block' : 'none';
+
+            let html = '';
+
+            if (currentModel === 'materials') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Sarlavha (O'zbekcha):</label>
+                            <input type="text" id="inp_sarlavha_uz" value="${escapeHtml(data.sarlavha_uz || '')}" required class="w-full text-base font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Text (O'zbekcha - To'liq matn):</label>
+                            <textarea id="inp_text_uz" rows="7" required class="w-full text-sm px-4 py-3 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none leading-relaxed font-sans">${escapeHtml(data.text_uz || '')}</textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category:</label>
+                                <input type="text" id="inp_category" value="${escapeHtml(data.category || 'Yangiliklar')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Material turi:</label>
+                                <input type="text" id="inp_material_turi" value="${escapeHtml(data.material_turi || 'Tadbirlar')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Заголовок (Русский):</label>
+                            <input type="text" id="inp_sarlavha_ru" value="${escapeHtml(data.sarlavha_ru || '')}" class="w-full text-base font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Текст (Русский):</label>
+                            <textarea id="inp_text_ru" rows="7" class="w-full text-sm px-4 py-3 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none leading-relaxed">${escapeHtml(data.text_ru || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title (English):</label>
+                            <input type="text" id="inp_sarlavha_en" value="${escapeHtml(data.sarlavha_en || '')}" class="w-full text-base font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Text (English):</label>
+                            <textarea id="inp_text_en" rows="7" class="w-full text-sm px-4 py-3 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none leading-relaxed">${escapeHtml(data.text_en || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">标题 (中文):</label>
+                            <input type="text" id="inp_sarlavha_zh" value="${escapeHtml(data.sarlavha_zh || '')}" class="w-full text-base font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">内容 (中文):</label>
+                            <textarea id="inp_text_zh" rows="7" class="w-full text-sm px-4 py-3 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none leading-relaxed">${escapeHtml(data.text_zh || '')}</textarea>
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'xodimlar') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Fio (O'zbekcha):</label>
+                                <input type="text" id="inp_fio_uz" value="${escapeHtml(data.fio_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Ilmiy unvoni:</label>
+                                <input type="text" id="inp_ilmiy_unvoni_uz" value="${escapeHtml(data.ilmiy_unvoni_uz || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone number:</label>
+                                <input type="text" id="inp_phone_number" value="${escapeHtml(data.phone_number || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email:</label>
+                                <input type="email" id="inp_email" value="${escapeHtml(data.email || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Address:</label>
+                            <input type="text" id="inp_address_uz" value="${escapeHtml(data.address_uz || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Mehnat faoliyati (O'zbekcha):</label>
+                            <textarea id="inp_mehnat_faoliyati_uz" rows="4" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">${escapeHtml(data.mehnat_faoliyati_uz || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Ф.И.О (Русский):</label>
+                            <input type="text" id="inp_fio_ru" value="${escapeHtml(data.fio_ru || '')}" class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Ученое звание (Русский):</label>
+                            <input type="text" id="inp_ilmiy_unvoni_ru" value="${escapeHtml(data.ilmiy_unvoni_ru || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Трудовая деятельность (Русский):</label>
+                            <textarea id="inp_mehnat_faoliyati_ru" rows="4" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">${escapeHtml(data.mehnat_faoliyati_ru || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Full Name (English):</label>
+                            <input type="text" id="inp_fio_en" value="${escapeHtml(data.fio_en || '')}" class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Academic Degree (English):</label>
+                            <input type="text" id="inp_ilmiy_unvoni_en" value="${escapeHtml(data.ilmiy_unvoni_en || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">姓名 (中文):</label>
+                            <input type="text" id="inp_fio_zh" value="${escapeHtml(data.fio_zh || '')}" class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'books') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Sarlavha (O'zbekcha):</label>
+                            <input type="text" id="inp_sarlavha_uz" value="${escapeHtml(data.sarlavha_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Mualliflar:</label>
+                                <input type="text" id="inp_mualliflar" value="${escapeHtml(data.mualliflar || 'Buxoro davlat universiteti')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Nashr yili:</label>
+                                <input type="number" id="inp_nashr_yili" value="${data.nashr_yili || 2026}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Text (Tavsif / Annotatsiya):</label>
+                            <textarea id="inp_text_uz" rows="4" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">${escapeHtml(data.text_uz || '')}</textarea>
+                        </div>
+                    </div>
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Название книги (Русский):</label>
+                            <input type="text" id="inp_sarlavha_ru" value="${escapeHtml(data.sarlavha_ru || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Book Title (English):</label>
+                            <input type="text" id="inp_sarlavha_en" value="${escapeHtml(data.sarlavha_en || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">书名 (中文):</label>
+                            <input type="text" id="inp_sarlavha_zh" value="${escapeHtml(data.sarlavha_zh || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'kategoriyalar' || currentModel === 'materialturlari') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Sarlavha (O'zbekcha):</label>
+                            <input type="text" id="inp_sarlavha_uz" value="${escapeHtml(data.sarlavha_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Slug (URL):</label>
+                            <input type="text" id="inp_slug" value="${escapeHtml(data.slug || '')}" class="w-full text-sm font-mono px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Заголовок (Русский):</label>
+                            <input type="text" id="inp_sarlavha_ru" value="${escapeHtml(data.sarlavha_ru || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title (English):</label>
+                            <input type="text" id="inp_sarlavha_en" value="${escapeHtml(data.sarlavha_en || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">名称 (中文):</label>
+                            <input type="text" id="inp_sarlavha_zh" value="${escapeHtml(data.sarlavha_zh || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'lavozimlar') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title (O'zbekcha):</label>
+                            <input type="text" id="inp_title_uz" value="${escapeHtml(data.title_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Level (Iyerarxiya darajasi):</label>
+                            <input type="number" id="inp_level" value="${data.level || 0}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Должность (Русский):</label>
+                            <input type="text" id="inp_title_ru" value="${escapeHtml(data.title_ru || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title (English):</label>
+                            <input type="text" id="inp_title_en" value="${escapeHtml(data.title_en || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">职务 (中文):</label>
+                            <input type="text" id="inp_title_zh" value="${escapeHtml(data.title_zh || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'menus') {
+                html = `
+                    <div id="m-lang-uz" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Sarlavha (O'zbekcha):</label>
+                            <input type="text" id="inp_sarlavha_uz" value="${escapeHtml(data.sarlavha_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Type:</label>
+                                <input type="text" id="inp_type" value="${escapeHtml(data.type || 'material')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Url:</label>
+                                <input type="text" id="inp_url" value="${escapeHtml(data.url || '#')}" class="w-full text-sm font-mono px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-lang-ru" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Название (Русский):</label>
+                            <input type="text" id="inp_sarlavha_ru" value="${escapeHtml(data.sarlavha_ru || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-en" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Title (English):</label>
+                            <input type="text" id="inp_sarlavha_en" value="${escapeHtml(data.sarlavha_en || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div id="m-lang-zh" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">名称 (中文):</label>
+                            <input type="text" id="inp_sarlavha_zh" value="${escapeHtml(data.sarlavha_zh || '')}" class="w-full text-sm px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            } else if (currentModel === 'photos') {
+                html = `
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Sarlavha (O'zbekcha):</label>
+                            <input type="text" id="inp_sarlavha_uz" value="${escapeHtml(data.sarlavha_uz || '')}" required class="w-full text-sm font-semibold px-4 py-2.5 bg-slate-800 border border-slate-700 text-white rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            switchModalLang('uz');
+        }
+
+        function switchModalLang(lang) {
+            currentModalLang = lang;
+            ['uz', 'ru', 'en', 'zh'].forEach(l => {
+                const tab = document.getElementById(`tab-${l}`);
+                const block = document.getElementById(`m-lang-${l}`);
+                if (tab) {
+                    if (l === lang) {
+                        tab.className = "tab-active pb-3 flex items-center gap-2 transition";
+                    } else {
+                        tab.className = "text-slate-400 hover:text-slate-200 pb-3 flex items-center gap-2 transition";
+                    }
+                }
+                if (block) {
+                    if (l === lang) block.classList.remove('hidden');
+                    else block.classList.add('hidden');
+                }
+            });
+        }
+
+        // =====================================================================
+        // MAGIC ACTIONS
+        // =====================================================================
+        function actionTransliterateModal() {
+            const uzInputs = document.querySelectorAll('#m-lang-uz input, #m-lang-uz textarea, #dynamicFormFields input, #dynamicFormFields textarea');
+            let count = 0;
+            uzInputs.forEach(inp => {
+                if (inp.value && inp.value.trim()) {
+                    const converted = transliterateText(inp.value);
+                    if (converted !== inp.value) {
+                        inp.value = converted;
+                        count++;
+                    }
+                }
+            });
+            showToast("Matnlar yangi alifboga (Ö, Ğ, Ş, Ç) o'tkazildi!", "⚡");
+        }
+
+        async function actionTranslateModal() {
+            const btn = document.getElementById('btnModalTranslate');
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Tarjima...`;
+            lucide.createIcons();
+            showToast("Rus, ingliz va xitoy tillariga tarjima qilinmoqda...", "🌐");
+
+            try {
+                const titleInp = document.getElementById('inp_sarlavha_uz') || document.getElementById('inp_fio_uz') || document.getElementById('inp_title_uz');
+                const textInp = document.getElementById('inp_text_uz') || document.getElementById('inp_mehnat_faoliyati_uz');
+
+                const titleVal = titleInp ? titleInp.value : '';
+                const textVal = textInp ? textInp.value : '';
+
+                if (titleVal) {
+                    const res = await fetch('/api/tools/translate/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: titleVal, source_lang: 'uz', target_langs: ['ru', 'en', 'zh-cn'] })
+                    });
+                    const d = await res.json();
+                    if (d.success) {
+                        if (document.getElementById('inp_sarlavha_ru')) document.getElementById('inp_sarlavha_ru').value = d.translations['ru'] || '';
+                        if (document.getElementById('inp_fio_ru')) document.getElementById('inp_fio_ru').value = d.translations['ru'] || '';
+                        if (document.getElementById('inp_title_ru')) document.getElementById('inp_title_ru').value = d.translations['ru'] || '';
+
+                        if (document.getElementById('inp_sarlavha_en')) document.getElementById('inp_sarlavha_en').value = d.translations['en'] || '';
+                        if (document.getElementById('inp_fio_en')) document.getElementById('inp_fio_en').value = d.translations['en'] || '';
+                        if (document.getElementById('inp_title_en')) document.getElementById('inp_title_en').value = d.translations['en'] || '';
+
+                        if (document.getElementById('inp_sarlavha_zh')) document.getElementById('inp_sarlavha_zh').value = d.translations['zh-cn'] || '';
+                        if (document.getElementById('inp_fio_zh')) document.getElementById('inp_fio_zh').value = d.translations['zh-cn'] || '';
+                        if (document.getElementById('inp_title_zh')) document.getElementById('inp_title_zh').value = d.translations['zh-cn'] || '';
+                    }
+                }
+
+                if (textVal) {
+                    const res = await fetch('/api/tools/translate/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: textVal, source_lang: 'uz', target_langs: ['ru', 'en', 'zh-cn'] })
+                    });
+                    const d = await res.json();
+                    if (d.success) {
+                        if (document.getElementById('inp_text_ru')) document.getElementById('inp_text_ru').value = d.translations['ru'] || '';
+                        if (document.getElementById('inp_mehnat_faoliyati_ru')) document.getElementById('inp_mehnat_faoliyati_ru').value = d.translations['ru'] || '';
+
+                        if (document.getElementById('inp_text_en')) document.getElementById('inp_text_en').value = d.translations['en'] || '';
+                        if (document.getElementById('inp_mehnat_faoliyati_en')) document.getElementById('inp_mehnat_faoliyati_en').value = d.translations['en'] || '';
+
+                        if (document.getElementById('inp_text_zh')) document.getElementById('inp_text_zh').value = d.translations['zh-cn'] || '';
+                        if (document.getElementById('inp_mehnat_faoliyati_zh')) document.getElementById('inp_mehnat_faoliyati_zh').value = d.translations['zh-cn'] || '';
+                    }
+                }
+
+                showToast("Ajoyib! Barcha tillar avtomatik to'ldirildi!", "🎉");
+            } catch (e) {
+                showToast("Tarjimada xatolik: " + e.message, "❌");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="globe" class="w-3.5 h-3.5"></i> 3 Tilda Tarjima`;
+                lucide.createIcons();
+            }
+        }
+
+        async function actionMasterAllInOne() {
+            actionTransliterateModal();
+            await actionTranslateModal();
+            showToast("🚀 Alifbo va 3 ta tilga tarjima 1-bosishda yakunlandi!", "🎉");
+        }
+
+        // Senior Bulk Transliterate
+        async function runBulkTransliterate() {
+            if (!confirm("Barcha jadvallardagi (Materiallar, Xodimlar, Books va h.k.) barcha o'zbekcha matnlarni yangi lotin alifbosiga (Ö, Ğ, Ş, Ç) ommaviy o'tkazilsinmi?")) return;
+
+            const btn = document.getElementById('btnBulkTranslit');
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> O'tkazilmoqda...`;
+            lucide.createIcons();
+
+            try {
+                const res = await fetch('/api/tools/bulk_transliterate/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ model: 'all', style: 'umlaut' })
+                });
+                const d = await res.json();
+                if (d.success) {
+                    showToast(d.message, "⚡", 6000);
+                    loadCurrentModelData();
+                } else {
+                    showToast("Xatolik: " + d.error, "❌");
+                }
+            } catch (e) {
+                showToast("Xatolik: " + e.message, "❌");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="zap" class="w-3.5 h-3.5"></i> Ommaviy Alifbo Yangilash (Bazada)`;
+                lucide.createIcons();
+            }
+        }
+
+        // Form Submit
+        async function submitUniversalForm(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnModalSave');
+            const id = document.getElementById('editItemId').value;
+
+            const inputs = document.querySelectorAll('#dynamicFormFields input, #dynamicFormFields textarea, #dynamicFormFields select');
+            const payload = {};
+            inputs.forEach(inp => {
+                const idName = inp.id;
+                if (idName && idName.startsWith('inp_')) {
+                    const fieldName = idName.substring(4);
+                    payload[fieldName] = inp.value;
+                }
+            });
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Saqlanmoqda...`;
+            lucide.createIcons();
+
+            try {
+                const url = id ? `/api/${currentModel}/${id}/` : `/api/${currentModel}/`;
+                const method = id ? 'PUT' : 'POST';
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const d = await res.json();
+                if (d.success) {
+                    showToast(d.message || "Muvaffaqiyatli saqlandi!", "✅");
+                    closeSmartModal();
+                    loadCurrentModelData();
+                } else {
+                    showToast("Xatolik: " + d.error, "❌");
+                }
+            } catch (err) {
+                showToast("Saqlashda xatolik: " + err.message, "❌");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> Bazaga Saqlash`;
+                lucide.createIcons();
+            }
+        }
+
+        async function deleteCurrentItem(id) {
+            if (!confirm("Haqiqatan ham ushbu yozuvni o'chirmoqchimisiz?")) return;
+            try {
+                const res = await fetch(`/api/${currentModel}/${id}/`, { method: 'DELETE' });
+                const d = await res.json();
+                if (d.success) {
+                    showToast("Muvaffaqiyatli o'chirildi!", "🗑️");
+                    loadCurrentModelData();
+                }
+            } catch (e) {
+                showToast("O'chirishda xatolik: " + e.message, "❌");
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text).replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            selectModel('materials');
+            loadStats();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

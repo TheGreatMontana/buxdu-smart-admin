@@ -1,0 +1,2 @@
+recursive-include buxdu_smart_admin/static *
+recursive-include buxdu_smart_admin/templates *

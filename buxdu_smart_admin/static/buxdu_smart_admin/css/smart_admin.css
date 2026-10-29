@@ -1,0 +1,316 @@
+/* ==========================================================================
+   BuxDU Smart Admin Modern Theme & Magic Bar Styles
+   ========================================================================== */
+
+:root {
+    --buxdu-primary: #2563eb;
+    --buxdu-primary-hover: #1d4ed8;
+    --buxdu-accent: #059669;
+    --buxdu-accent-hover: #047857;
+    --buxdu-bg-light: #f8fafc;
+    --buxdu-border: #e2e8f0;
+    --buxdu-text: #1e293b;
+    --buxdu-radius: 10px;
+    --buxdu-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.buxdu-smart-bar {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1px solid #cbd5e1;
+    border-radius: var(--buxdu-radius);
+    padding: 16px 20px;
+    margin: 15px 0 25px 0;
+    box-shadow: var(--buxdu-shadow);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.buxdu-bar-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--buxdu-border);
+}
+
+.buxdu-logo-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--buxdu-text);
+}
+
+.badge-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.badge-version {
+    font-size: 12px;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.buxdu-bar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.smart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.smart-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.smart-btn:active {
+    transform: translateY(0);
+}
+
+.smart-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.smart-btn-primary {
+    background-color: var(--buxdu-primary);
+    color: #ffffff;
+}
+
+.smart-btn-primary:hover {
+    background-color: var(--buxdu-primary-hover);
+}
+
+.smart-btn-accent {
+    background-color: var(--buxdu-accent);
+    color: #ffffff;
+}
+
+.smart-btn-accent:hover {
+    background-color: var(--buxdu-accent-hover);
+}
+
+.smart-btn-secondary {
+    background-color: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+}
+
+.smart-btn-secondary:hover {
+    background-color: #f1f5f9;
+}
+
+/* Tabs */
+.buxdu-lang-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.lang-tab {
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.lang-tab:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.lang-tab.active {
+    background: #1e293b;
+    color: #ffffff;
+    border-color: #1e293b;
+}
+
+/* Notification Banner */
+.buxdu-status {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.buxdu-status.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.buxdu-status.info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+.buxdu-status.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Preview Modal */
+.buxdu-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.buxdu-modal-content {
+    background: #ffffff;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.buxdu-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.buxdu-modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+.buxdu-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.buxdu-modal-body {
+    padding: 20px;
+}
+
+/* Telegram card */
+.telegram-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #0088cc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tg-sender {
+    font-weight: 700;
+    color: #0088cc;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.tg-title {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.tg-body {
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.5;
+    max-height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tg-footer {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* Google card */
+.google-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.google-url {
+    font-size: 12px;
+    color: #202124;
+    margin-bottom: 4px;
+}
+
+.google-title {
+    font-size: 16px;
+    color: #1a0dab;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.google-desc {
+    font-size: 13px;
+    color: #4d5156;
+    line-height: 1.4;
+}
