@@ -1,103 +1,99 @@
-# 🏛️ BuxDU Smart Admin & Modern Mobile CMS (2026 Edition)
+# 🏛️ BuxDU Smart Django Admin (2026 Alifbo & Ko'p Tilli Tarjima)
 
 [![Django](https://img.shields.io/badge/Django-5.2+-092e20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Userscript-00485B?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://www.tampermonkey.net/)
-[![Google DeepMind](https://img.shields.io/badge/Nano_Banana-4K_Visuals-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Uzbek Latin 2026](https://img.shields.io/badge/2026_Alifbo-Ö_%7C_Ğ_%7C_Ş_%7C_Ç-2b7a59?style=for-the-badge)](https://buxdu.uz)
 
-> **Professional raqamli transformatsiya loyihasi**: Buxoro davlat universiteti (`buxdu.uz`) uchun 2026-yilgi yangi lotin alifbosi reformasi (`Ö, Ğ, Ş, Ç`), ko'p tilli avtomatik tarjima (RU, EN, ZH), Tampermonkey brauzer yordamchisi va zamonaviy mobil sayt redesigni.
-
----
-
-## 📌 Loyiha tarkibidagi 2 ta asosiy yechim
-
-### 1️⃣ Yechim: BuxDU Admin Smart Helper (Tampermonkey Userscript)
-> **Jonli sayt (`buxdu.uz/admin/*`) uchun darhol ishlaydigan brauzer kengaytmasi.**
-
-Universitet dasturchilarini kutish shart emas! Sayt administratori o'z brauzeriga 1 daqiqada o'rnatib, hoziroq foydalanishi mumkin:
-* **🚀 1-BOSISHDA HAMMASI**: O'zbekcha yozilgan maqolani yangi alifboga o'tkazadi va bir vaqtning o'zida rus, ingliz va xitoy tillariga tarjima qiladi.
-* **⚡ 2026 Yangi Alifbo Reformasi**: `O‘/o‘` ➔ `Ö/ö`, `G‘/g‘` ➔ `Ğ/ğ`, `Sh/sh` ➔ `Ş/ş`, `Ch/ch` ➔ `Ç/ç`.
-* **CKEditor 4 va Modeltranslation integratsiyasi**: Matn ichidagi HTML teglarni (`<p>`, `<a>`, `<img>`) saqlagan holda tahrirlaydi va Django tillar tablarini avtomatik to'ldiradi.
-* **O'rnatish**: [`userscript/buxdu_admin_helper.user.js`](userscript/buxdu_admin_helper.user.js) faylini Tampermonkey'ga import qiling.
+> **Buxoro davlat universiteti (`buxdu.uz`) Django admin paneli uchun maxsus ishlab chiqilgan tayyor plagin.**
+> Sayt administratori uchun birgina tugma bilan o'zbekcha matnlarni 2026-yilgi yangi lotin alifbosiga (`Ö, Ğ, Ş, Ç`) o'tkazadi va rus, ingliz hamda xitoy tillariga professional darajada avtomatik tarjima qiladi.
 
 ---
 
-### 2️⃣ Yechim: Zamonaviy Mustaqil CMS & Mobil Redesign (`admin.buxdu.uz` & `buxdu.uz`)
-> **Eski Django admin o'rniga zamonaviy SPA boshqaruv paneli va yangilangan mobil versiya.**
+## ⚡ Asosiy Imkoniyatlar (Django Admin Ichida)
 
-* **8 ta model (`MAIN` bo'limi)**:
-  1. `Article` (**Materiallar**) — yangiliklar, e'lonlar, fotogalereyalar.
-  2. `Employee` (**Xodimlar**) — rektorat, dekanlar, kafedra mudirlari, professorlar.
-  3. `Book` (**Books**) — konferensiya to'plamlari, avtoreferatlar.
-  4. `Category` (**Kategoriyalar**) — fakultetlar va bo'limlar.
-  5. `Position` (**Lavozimlar**) — iyerarxiya va darajalar.
-  6. `TypeArticle` (**Material turilari**) — sport, tadbirlar, grantlar.
-  7. `Menu` (**Menu**) — sayt navigatsiyasi.
-  8. `PhotoContent` (**Photo contents**) — foto-albomlar.
-* **📱 Ultra-zamonaviy Mobil Sayt (`/mobile/`)**:
-  - Matnni to'sib turgan 5 ta noqulay ijtimoiy tugmalar o'rniga qulay **Speed-Dial Floating Action Button (Share)**.
-  - Tezkor xizmatlar (HEMIS, Rektorat, Kutubxona, Qabul-2027) doirachalari.
-  - Google DeepMind **Nano Banana** orqali yaratilgan 4K fotorealistik BuxDU bosh binosi surati.
-  - Ilova uslubidagi **Bottom Navigation Bar** (`Asosiy`, `Yangiliklar`, `HEMIS`, `Kitoblar`, `Menyu`).
-  - Dark / Light rejimi va ko'p tilli interfeys.
-* **⚡ Ommaviy Alifbo Yangilash (Bulk Transliterate)**: Butun ma'lumotlar bazasidagi minglab eski maqolalarni 1 tugma bilan yangi alifboga o'tkazish imkoniyati.
+Django ma'muriyat panelidagi har bir maqola, yangilik, kitob yoki xodim formasining yuqori qismida 100% Django dizayniga moslashgan aqlli boshqaruv paneli joylashgan:
 
----
+1. **⚡ Yangi Alifboga O'tkazish (Ö, Ğ, Ş, Ç)**:
+   - `O‘ / o‘` ➔ `Ö / ö` (*O'zbekiston* ➔ *Özbekiston*, *o'quv* ➔ *öquv*)
+   - `G‘ / g‘` ➔ `Ğ / ğ` (*yig'ilish* ➔ *yiğiliş*, *to'g'risida* ➔ *töğrisida*)
+   - `Sh / sh` ➔ `Ş / ş` (*sharafli* ➔ *şarafli*, *qatnashdi* ➔ *qatnaşdi*)
+   - `Ch / ch` ➔ `Ç / ç` (*ochilish* ➔ *oçiliş*, *o'qituvchilar* ➔ *öqituvçilar*)
+   - `Is'hoq`, `mus'haf` kabi so'zlardagi tutuq belgisi xavfsiz saqlanadi.
+   - Kirill alifbosida kiritilgan matnlarni ham avtomatik aniqlab yangi lotinga o'giradi.
+   - CKEditor 4 va TinyMCE ichidagi HTML teglarni (`<p>`, `<a>`, `<strong>`, `<img>`) buzmaydi.
 
-## 📸 Skrinshotlar va Vizual
+2. **🌐 Tillarga Avto-Tarjima (RU, EN, ZH)**:
+   - O'zbek tilidagi sarlavha va to'liq matnni bir zumda **Rus**, **Ingliz** va **Xitoy** tillariga akademik standartda tarjima qiladi.
+   - `django-modeltranslation` maydonlarini (`sarlavha_ru`, `text_ru`, `sarlavha_en`, `text_en`, `sarlavha_zh`, `text_zh`) avtomatik to'ldiradi.
 
-| BuxDU Bosh Binosi (Nano Banana 4K) | Zamonaviy Mobil Redesign |
-|:---:|:---:|
-| ![BuxDU Campus](buxdu_campus_hero.jpg) | ![Mobile Redesign](demo_app/dashboard/templates/dashboard/mobile.html) |
+3. **🚀 1-Bosishda Hammasi**:
+   - Yangi alifboga o'tkazish va 3 ta tilga tarjima qilishni bir vaqtda bajaradi.
 
 ---
 
-## 🚀 Tezkor Ishga Tushirish (Quick Start)
+## 🚀 Loyihani Lokal Ishga Tushirish
 
-### 1. Repozitoriyni klonlash:
+### 1. Repozitoriyni yuklab olish:
 ```bash
 git clone https://github.com/TheGreatMontana/buxdu-smart-admin.git
 cd buxdu-smart-admin
 ```
 
-### 2. Virtual muhit yaratish va kutubxonalarni o'rnatish:
+### 2. Virtual muhit va kutubxonalarni o'rnatish:
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install django
+# Windows:
+.venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
+
+pip install -r requirements.txt
 ```
 
-### 3. Ma'lumotlar bazasini tayyorlash va test ma'lumotlarini yuklash:
+### 3. Serverni ishga tushirish:
 ```bash
 cd demo_app
-python manage.py migrate
-python apply_and_seed.py
-```
-
-### 4. Serverni yoqish:
-```bash
 python manage.py runserver 127.0.0.1:8000
 ```
 
-* 🖥️ **Boshqaruv paneli (Desktop/Tablet)**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-* 📱 **Zamonaviy Mobil Sayt**: [http://127.0.0.1:8000/mobile/](http://127.0.0.1:8000/mobile/)
-* ⚙️ **REST API Dok**: [http://127.0.0.1:8000/api/stats/](http://127.0.0.1:8000/api/stats/)
-* 🔑 **Django Admin**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) (Login: `admin` / Parol: `admin123`)
+---
+
+## 🔗 Kerakli Havolalar (Links)
+
+Server yongandan so'ng brauzeringizda quyidagi havolalarni oching:
+
+* 🏛️ **Django Admin Bosh Sahifasi**:  
+  👉 **[http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)**  
+  *(Login: `admin` | Parol: `admin123`)*
+
+* ⚡ **To'g'ridan-to'g'ri Maqolani Tahrirlash (Smart Tugmalar bilan)**:  
+  👉 **[http://127.0.0.1:8000/edit-demo/](http://127.0.0.1:8000/edit-demo/)**  
+  *(Hech qanday login terish shart emas — avtomatik ochiladi va tugmalarni darhol sinab ko'rish mumkin)*
+
+* 🌐 **Bosh sahifa (Avtomatik Adminga Yo'naltiradi)**:  
+  👉 **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**
 
 ---
 
-## 🛠️ API Qo'llanmasi
+## 📦 O'z loyihangizga (`buxdu.uz` ga) o'rnatish
 
-| Metod | Endpoint | Tavsif |
-|---|---|---|
-| `GET` | `/api/stats/` | Barcha 8 ta model bo'yicha jonli hisoblagichlar |
-| `POST` | `/api/tools/transliterate/` | Matnni 2026 yangi alifbosiga o'tkazish (`Ö, Ğ, Ş, Ç`) |
-| `POST` | `/api/tools/bulk_transliterate/` | Butun bazadagi yozuvlarni ommaviy alifboga o'tkazish |
-| `POST` | `/api/tools/translate/` | Matnni bir vaqtning o'zida RU, EN, ZH tillariga tarjima qilish |
-| `GET/POST` | `/api/<model_name>/` | Generic CRUD ro'yxat va yangi yozuv yaratish |
-| `GET/PUT/DELETE` | `/api/<model_name>/<id>/` | Yozuvni olish, tahrirlash yoki o'chirish |
+1. `buxdu_smart_admin` jildini loyihangizga ko'chiring.
+2. `settings.py` fayliga qo'shing:
+```python
+INSTALLED_APPS = [
+    'buxdu_smart_admin',
+    'django.contrib.admin',
+    # ... boshqa ilovalaringiz
+]
+```
+3. `admin.py` faylida modelingiz uchun `SmartMultilingualAdmin` dan foydalaning:
+```python
+from django.contrib import admin
+from buxdu_smart_admin.admin import SmartMultilingualAdmin
+from .models import Article
 
----
-
-## 📄 Litsenziya
-MIT License © 2026 TheGreatMontana. Buxoro davlat universiteti (BuxDU) raqamli infratuzilmasini rivojlantirish uchun ochiq manbali loyiha.
+@admin.register(Article)
+class ArticleAdmin(SmartMultilingualAdmin):
+    list_display = ('sarlavha_uz', 'sana')
+```
+Tayyor! Endi sizning Django adminingizda aqlli tugmalar paydo bo'ladi.

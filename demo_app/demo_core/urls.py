@@ -1,27 +1,18 @@
 from django.contrib import admin
 from django.urls import path, include
-from dashboard.views import (
-    dashboard_index, mobile_view, campus_image_view, 
-    auto_login_admin_preview, auto_login_admin_index
-)
+from .views import root_redirect, direct_article_edit
 
 urlpatterns = [
-    # 1. Modern Standalone Admin Dashboard (admin.buxdu.uz style)
-    path('', dashboard_index, name='dashboard_home'),
-    path('dashboard/', dashboard_index, name='dashboard_index'),
+    # Root redirects straight to Django Admin with automatic login
+    path('', root_redirect, name='root_admin'),
 
-    # 2. Modern Mobile Redesign of buxdu.uz
-    path('mobile/', mobile_view, name='mobile_home'),
-    path('campus-hero.jpg', campus_image_view, name='campus_hero_img'),
-    path('preview/admin/', auto_login_admin_preview, name='auto_login_admin'),
-    path('preview/admin/index/', auto_login_admin_index, name='auto_login_admin_index'),
+    # Direct 1-click link to edit an article with the Smart Buttons
+    path('edit-demo/', direct_article_edit, name='direct_edit_demo'),
+    path('edit-demo/<int:article_id>/', direct_article_edit, name='direct_edit_demo_id'),
 
-    # 3. REST API for Standalone Dashboard
-    path('api/', include('api.urls')),
-
-    # 4. BuxDU Smart Assistant endpoints
+    # BuxDU Smart Assistant endpoints
     path('admin/buxdu_smart_admin/', include('buxdu_smart_admin.urls')),
 
-    # 5. Classic Django Admin (still accessible for backward compatibility)
+    # Official Django Administration
     path('admin/', admin.site.urls),
 ]
