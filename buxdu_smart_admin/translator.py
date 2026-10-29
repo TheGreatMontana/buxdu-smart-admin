@@ -3,12 +3,13 @@ BuxDU Smart Admin - Multi-Language Translation Engine
 ====================================================
 Features:
 1. Zero-config Google Translate backend (works out-of-the-box, no API key needed).
-2. Optional Gemini AI / LLM backend for highest-quality academic/journalistic translations.
+2. Optional Gemini AI backend (Gemini 2.5 Flash) for high-tier academic & journalistic translations.
 3. Full HTML preservation: tags (<p>, <strong>, <a>, <img>) are NEVER mangled.
 4. Auto-detects and translates from Uzbek (uz) into Russian (ru), English (en), Chinese (zh-cn).
 5. Threaded parallel batch translations for near-instant response.
 """
 
+import os
 import re
 import json
 import urllib.parse
@@ -16,15 +17,80 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, Optional, List
 
+try:
+    from django.conf import settings
+    DJANGO_GEMINI_KEY = getattr(settings, 'GEMINI_API_KEY', None)
+except Exception:
+    DJANGO_GEMINI_KEY = None
+
+
+def get_gemini_api_key() -> Optional[str]:
+    """Retrieves Gemini API key from Django settings or environment variables."""
+    return DJANGO_GEMINI_KEY or os.environ.get('GEMINI_API_KEY')
+
+
+def _translate_bundle_gemini(text: str, api_key: str) -> Optional[Dict[str, str]]:
+    """
+    Translates text into RU, EN, and ZH-CN using Google Gemini AI in a single structured call.
+    Preserves all HTML markup and uses academic register suitable for universities.
+    """
+    if not text or not text.strip():
+        return None
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    prompt = (
+        "You are an expert official translator for university news, academic materials, and administration portals.\n"
+        "Translate the following Uzbek text into Russian, English, and Simplified Chinese (zh-CN).\n"
+        "Strict rules:\n"
+        "1. Maintain highest academic and journalistic standards suitable for higher education portals.\n"
+        "2. Strictly preserve all HTML tags (e.g. <p>, <strong>, <a>, <img>, <br>) and special characters exactly in place.\n"
+        "3. Output MUST be valid JSON with keys: \"ru\", \"en\", \"zh-cn\". Do not wrap in markdown quotes.\n\n"
+        f"Uzbek text:\n{text}"
+    )
+
+    req_data = {
+        "contents": [{
+            "parts": [{"text": prompt}]
+        }],
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "temperature": 0.2
+        }
+    }
+
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(req_data).encode('utf-8'),
+        headers={'Content-Type': 'application/json'},
+        method='POST'
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=12) as response:
+            res_json = json.loads(response.read().decode('utf-8'))
+            candidate = res_json.get('candidates', [{}])[0]
+            content_part = candidate.get('content', {}).get('parts', [{}])[0].get('text', '')
+            parsed = json.loads(content_part)
+            if isinstance(parsed, dict) and 'ru' in parsed and 'en' in parsed:
+                return {
+                    'ru': parsed.get('ru', '').strip(),
+                    'en': parsed.get('en', '').strip(),
+                    'zh-cn': parsed.get('zh-cn', parsed.get('zh', '')).strip()
+                }
+    except Exception as e:
+        # Fallback to standard Google Translate if Gemini request fails or quotas exceeded
+        pass
+    return None
+
 
 def _translate_plain_google(text: str, source_lang: str = 'uz', target_lang: str = 'ru') -> str:
     """
     Translates a plain text segment via Google Translate free GTX endpoint.
+    Zero configuration, no API key needed.
     """
     if not text or not text.strip():
         return text
 
-    # Map language codes if necessary
     lang_map = {
         'uz': 'uz',
         'ru': 'ru',
@@ -36,7 +102,6 @@ def _translate_plain_google(text: str, source_lang: str = 'uz', target_lang: str
     sl = lang_map.get(source_lang.lower(), source_lang)
     tl = lang_map.get(target_lang.lower(), target_lang)
 
-    # Google limits single GET requests to ~5000 chars, so split long texts into chunks if needed
     chunks = []
     current_chunk = []
     current_len = 0
@@ -74,11 +139,9 @@ def _translate_plain_google(text: str, source_lang: str = 'uz', target_lang: str
         try:
             with urllib.request.urlopen(req, timeout=10) as response:
                 data = json.loads(response.read().decode('utf-8'))
-                # Response format: [[["translated_segment", "source_segment", ...], ...], ...]
                 translated_piece = "".join([segment[0] for segment in data[0] if segment and segment[0]])
                 translated_chunks.append(translated_piece)
-        except Exception as e:
-            # Fallback gracefully
+        except Exception:
             translated_chunks.append(chunk)
 
     return "\n".join(translated_chunks)
@@ -91,7 +154,6 @@ def translate_text(text: str, source_lang: str = 'uz', target_lang: str = 'ru') 
     if not text or not text.strip():
         return text
 
-    # Extract HTML tags to prevent translation corruption
     tag_placeholders = {}
     def preserve_tag(match):
         token = f"___TAG_{len(tag_placeholders)}___"
@@ -108,9 +170,8 @@ def translate_text(text: str, source_lang: str = 'uz', target_lang: str = 'ru') 
     # Translate the cleaned text
     translated = _translate_plain_google(protected, source_lang=source_lang, target_lang=target_lang)
 
-    # Restore tags (handling any slight spacing differences introduced by translation)
+    # Restore tags
     for token, original_tag in tag_placeholders.items():
-        # Case insensitive and whitespace tolerant replacement
         pattern = re.compile(re.escape(token).replace(r'\_', r'\s*\_'), re.IGNORECASE)
         translated = pattern.sub(original_tag, translated)
 
@@ -123,13 +184,21 @@ def translate_bundle(
     target_langs: Optional[List[str]] = None
 ) -> Dict[str, str]:
     """
-    Translates a piece of text into multiple languages concurrently.
-    Default targets: ru, en, zh-cn.
-    Returns: {'ru': '...', 'en': '...', 'zh-cn': '...'}
+    Translates text into multiple languages.
+    If GEMINI_API_KEY is available, uses Google Gemini AI for contextual academic quality.
+    Otherwise, automatically uses high-speed parallel Google Translate.
     """
     if target_langs is None:
         target_langs = ['ru', 'en', 'zh-cn']
 
+    # 1. Try Gemini AI if API key is configured
+    gemini_key = get_gemini_api_key()
+    if gemini_key:
+        gemini_result = _translate_bundle_gemini(text, gemini_key)
+        if gemini_result:
+            return gemini_result
+
+    # 2. Fallback to concurrent Google Translate (Zero configuration)
     results = {}
 
     def worker(lang):
