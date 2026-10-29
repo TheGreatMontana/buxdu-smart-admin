@@ -1,65 +1,77 @@
-# 🏛️ BuxDU Smart Django Admin (2026 Alifbo & Ko'p Tilli Tarjima)
+# 🏛️ BuxDU Smart Django Admin
 
 [![Django](https://img.shields.io/badge/Django-3.2_|_4.2_|_5.x-092e20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![2026 Alifbo Reformasi](https://img.shields.io/badge/2026_Alifbo-Ö_%7C_Ğ_%7C_Ş_%7C_Ç-2b7a59?style=for-the-badge)](https://buxdu.uz)
+[![2026 Reform](https://img.shields.io/badge/2026_Alifbo-Ö_%7C_Ğ_%7C_Ş_%7C_Ç-2b7a59?style=for-the-badge)](https://buxdu.uz)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-> **Buxoro davlat universiteti (`buxdu.uz`) Django admin paneli uchun tayyor plagin.**  
-> Sayt administratori uchun 1 bosishda o'zbekcha matnlarni 2026-yilgi yangi lotin alifbosiga (`Ö, Ğ, Ş, Ç`) o'tkazadi va rus, ingliz hamda xitoy tillariga professional darajada avtomatik tarjima qilib beradi.
-
----
-
-## 👨‍💻 BuxDU Dasturchisi ("Programmer Boy") Uchun O'rnatish Qo'llanmasi
-
-Ushbu plagin mavjud `buxdu.uz` Django loyihasiga **3 daqiqada**, hech qanday mavjud kodni buzmasdan, oson ulanadi.
+> **Plug-and-play Django-плагин для админ-панели сайтов университетов и организаций.**  
+> Обеспечивает мгновенный переход узбекских текстов на **новый алфавит 2026 года (`Ö, Ğ, Ş, Ç`)** и **автоматический синхронный перевод** на русский, английский и китайский языки прямо в Django Admin.
 
 ---
 
-### 🛠️ 1-QADAM: Loyihaga qo'shish
-Ushbu repozitoriydagi `buxdu_smart_admin/` papkasini serveringizdagi Django loyihangiz ildiziga (`manage.py` turgan joyga) nusxalang:
+## ⚡ Основные возможности
+
+1. **⚡ Перевод на новый алфавит 2026 года (`Ö, Ğ, Ş, Ç`)**:
+   - `O‘ / o‘` ➔ `Ö / ö` (*O'zbekiston* ➔ *Özbekiston*, *o'quv* ➔ *öquv*)
+   - `G‘ / g‘` ➔ `Ğ / ğ` (*yig'ilish* ➔ *yiğiliş*, *to'g'risida* ➔ *töğrisida*)
+   - `Sh / sh` ➔ `Ş / ş` (*sharafli* ➔ *şarafli*, *qatnashdi* ➔ *qatnaşdi*)
+   - `Ch / ch` ➔ `Ç / ç` (*ochilish* ➔ *oçiliş*, *o'qituvchilar* ➔ *öqituvçilar*)
+   - Автоматически сохраняет апострофы в именах и терминах (*Is'hoq*, *mus'haf*).
+   - Поддерживает автоматический перевод текста, вставленного на кириллице.
+   - Бережно сохраняет всю разметку HTML внутри визуального редактора **CKEditor 4** и TinyMCE.
+
+2. **🌐 Мультиязычный авто-перевод (RU, EN, ZH)**:
+   - В 1 клик переводит узбекский заголовок и тело статьи на **русский**, **английский** и **китайский** языки.
+   - Автоматически заполняет соответствующие поля модели (`sarlavha_ru`, `text_ru`, `sarlavha_en`, `text_en`, `sarlavha_zh`, `text_zh`).
+
+3. **🚀 Пакетная обработка в общем списке (Changelist)**:
+   - Кнопки работают как внутри отдельного материала, так и в общей таблице: можно выделить 10–50 статей и в 1 клик обновить их в базе данных.
+
+---
+
+## 📖 Руководство по установке / O'rnatish qo'llanmasi
+
+### Шаг 1. Добавление приложения в проект
+Скопируйте директорию `buxdu_smart_admin` в корень вашего Django-проекта (рядом с `manage.py`):
 ```bash
-# buxdu.uz loyihangiz papkasida:
 cp -r /path/to/buxdu_smart_admin ./buxdu_smart_admin
 ```
 
 ---
 
-### ⚙️ 2-QADAM: `settings.py` sozlamasi
-`settings.py` faylingizdagi `INSTALLED_APPS` ro'yxatiga `buxdu_smart_admin` ni qo'shing:
+### Шаг 2. Регистрация в `settings.py`
+Добавьте `'buxdu_smart_admin'` в список установленных приложений `INSTALLED_APPS`:
 
 ```python
 INSTALLED_APPS = [
-    'buxdu_smart_admin',       # 👈 Shuni qo'shing (django.contrib.admin dan oldin yoki keyin)
+    'buxdu_smart_admin',
     'django.contrib.admin',
     'django.contrib.auth',
-    # ... qolgan ilovalaringiz
+    # ... остальные приложения
 ]
 ```
 
 ---
 
-### 🌐 3-QADAM: `urls.py` sozlamasi
-Loyihangizning asosiy `urls.py` fayliga API marshrutini ulang:
+### Шаг 3. Подключение URL-маршрутов в `urls.py`
+В основном файле маршрутизации проекта подключите эндпоинты плагина:
 
 ```python
 from django.urls import path, include
 
 urlpatterns = [
-    # BuxDU Smart Assistant endpoints (Alifbo va Avto-tarjima uchun)
-    path('admin/buxdu_smart_admin/', include('buxdu_smart_admin.urls')),  # 👈 Shuni qo'shing
+    # API эндпоинты для транслитерации и перевода
+    path('admin/buxdu_smart_admin/', include('buxdu_smart_admin.urls')),
     
     path('admin/', admin.site.urls),
-    # ... qolgan yo'llaringiz
 ]
 ```
 
 ---
 
-### 📝 4-QADAM: `admin.py` da faollashtirish
-Kerakli modelingiz (masalan, `Article`, `Xodimlar`, `Books` va h.k.) admin klassiga ulaymiz.
-
-#### Usul A (Eng osoni — 1 qator o'zgarish):
-`admin.ModelAdmin` o'rniga `SmartMultilingualAdmin` dan meros oling:
+### Шаг 4. Подключение к моделям в `admin.py`
+Для любой модели (статьи, сотрудники, книги, новости) используйте готовый класс `SmartMultilingualAdmin`:
 
 ```python
 from django.contrib import admin
@@ -67,109 +79,59 @@ from buxdu_smart_admin.admin import SmartMultilingualAdmin
 from .models import Article
 
 @admin.register(Article)
-class ArticleAdmin(SmartMultilingualAdmin):    # 👈 admin.ModelAdmin o'rniga
+class ArticleAdmin(SmartMultilingualAdmin):
     list_display = ('sarlavha_uz', 'sana')
-    # Sizning avvalgi barcha sozlamalaringiz o'zgarishsiz qoladi!
+    # Все ваши прежние поля и настройки сохраняются без изменений
 ```
 
-#### Usul B (Agar sizda allaqachon o'z maxsus BaseAdmin bo'lsa):
-Mavjud admin modelingizga quyidagi 2 ta parametrni qo'shib qo'ysangiz kifoya:
-
-```python
-@admin.register(Article)
-class ArticleAdmin(YourExistingBaseAdmin):
-    change_form_template = 'admin/buxdu_smart_admin/change_form.html'
-    
-    class Media:
-        css = {'all': ('buxdu_smart_admin/css/smart_admin.css',)}
-        js = ('buxdu_smart_admin/js/smart_admin.js',)
-```
+> **Если у вас уже используется собственный базовый класс ModelAdmin:**  
+> Достаточно добавить в ваш класс админки:
+> ```python
+> change_form_template = 'admin/buxdu_smart_admin/change_form.html'
+> actions = ['action_convert_to_new_uzbek', 'action_auto_translate_all', 'action_master_all']
+> ```
 
 ---
 
-### 📦 5-QADAM: Statik fayllarni yig'ish va serverni qayta yuklash
-Server konsolida statik fayllarni yig'ing va Gunicorn / Nginx xizmatini yangilang:
+### Шаг 5. Сборка статики и перезапуск веб-сервера
+Выполните стандартную команду сбора статических файлов и перезапустите службу:
 
 ```bash
 python manage.py collectstatic --noinput
 
-# Agar Gunicorn ishlatilsa:
+# При использовании systemd / Gunicorn:
 sudo systemctl restart gunicorn
-# yoki
+
+# Либо через supervisor:
 sudo supervisorctl restart all
 ```
 
-**Bo'ldi, tayyor! 🎉**  
-Endi `buxdu.uz/admin/` sahifasiga kirganingizda:
-1. **Ro'yxat sahifasida (Changelist)**: Barcha yoki tanlangan maqolalarni 1 tugma bilan bazada yangi alifboga o'tkazish va tarjima qilish imkoniyati paydo bo'ladi.
-2. **Tahrirlash sahifasida (Changeform)**: Yuqorida qulay tugmalar paydo bo'ladi (CKEditor 4 bilan to'liq ishlaydi).
-3. **Standart «Harakat:» (Actions)** menyusida ham ommaviy alifbo va tarjima buyruqlari qo'shiladi.
+---
+
+## 🧩 Альтернативный вариант (Tampermonkey Userscript)
+Если требуется использовать функционал прямо сейчас на работающем сайте **без внесения изменений в код бэкенда**:
+1. Установите расширение [Tampermonkey](https://www.tampermonkey.net/) в браузер администратора.
+2. Добавьте скрипт [`userscript/buxdu_admin_helper.user.js`](userscript/buxdu_admin_helper.user.js).
+3. При открытии `buxdu.uz/admin` кнопки транслитерации и перевода появятся на странице автоматически.
 
 ---
 
-<br>
+## 🧪 Локальный запуск демо-проекта
 
-## 💡 0-VARIANT: Dasturchini kutmasdan darhol ishlatish (Tampermonkey Userscript)
-
-Agar server dasturchisi hozir band bo'lsa va sizga **hoziroq jonli `buxdu.uz` saytida** natija kerak bo'lsa:
-
-1. Brauzeringizga [Tampermonkey](https://www.tampermonkey.net/) kengaytmasini o'rnating.
-2. Ushbu repozitoriydagi [`userscript/buxdu_admin_helper.user.js`](userscript/buxdu_admin_helper.user.js) skriptini Tampermonkey'ga qo'shing.
-3. `buxdu.uz/admin` saytini oching — **serverga umuman teginmasdan**, to'g'ridan-to'g'ri brauzeringizda barcha tugmalar avtomatik paydo bo'ladi va ishlaydi!
-
----
-
-<br>
-
----
-
-## 🇷🇺 Руководство по установке (Для программиста бэкенда)
-
-### Шаг 1: Скопируйте папку
-Положите папку `buxdu_smart_admin` в корень вашего Django-проекта (рядом с `manage.py`).
-
-### Шаг 2: Добавьте в `INSTALLED_APPS` (`settings.py`):
-```python
-INSTALLED_APPS = [
-    'buxdu_smart_admin',
-    'django.contrib.admin',
-    ...
-]
-```
-
-### Шаг 3: Подключите маршруты в `urls.py`:
-```python
-path('admin/buxdu_smart_admin/', include('buxdu_smart_admin.urls')),
-```
-
-### Шаг 4: Наследуйте `SmartMultilingualAdmin` в `admin.py`:
-```python
-from buxdu_smart_admin.admin import SmartMultilingualAdmin
-
-@admin.register(Article)
-class ArticleAdmin(SmartMultilingualAdmin):
-    ...
-```
-
-### Шаг 5: Соберите статику и перезапустите:
 ```bash
-python manage.py collectstatic --noinput
-sudo systemctl restart gunicorn
+git clone https://github.com/TheGreatMontana/buxdu-smart-admin.git
+cd buxdu-smart-admin
+
+# Создание виртуального окружения
+python -m venv .venv
+source .venv/bin/activate  # На Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# Инициализация и запуск
+cd demo_app
+python seed_demo.py
+python manage.py runserver 127.0.0.1:8000
 ```
 
----
-
-## ⚡ Что делают кнопки:
-* **`⚡ Yangi Alifboga O'tkazish (Ö, Ğ, Ş, Ç)`**: 
-  - `O‘/o‘` ➔ `Ö/ö`
-  - `G‘/g‘` ➔ `Ğ/ğ`
-  - `Sh/sh` ➔ `Ş/ş`
-  - `Ch/ch` ➔ `Ç/ç`
-  - Бережно сохраняет апострофы в именах вроде *Is'hoq*, *mus'haf*.
-  - Поддерживает автоматическую конвертацию с кириллицы на новую латиницу.
-  - Корректно сохраняет HTML-теги внутри визуального редактора CKEditor 4.
-* **`🌐 Tillarga Avto-Tarjima (RU, EN, ZH)`**: 
-  - Автоматически переводит узбекские тексты на русский, английский и китайский языки.
-  - Заполняет мультиязычные поля модели (`_ru`, `_en`, `_zh`).
-* **`🚀 1-Bosishda Hammasi`**: 
-  - Выполняет и перевод на новый алфавит, и перевод на 3 языка одновременно.
+* 🔑 **Админ-панель**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) (Логин: `admin` | Пароль: `admin123`)
+* ⚡ **Прямой переход к редактированию**: [http://127.0.0.1:8000/edit-demo/](http://127.0.0.1:8000/edit-demo/)
