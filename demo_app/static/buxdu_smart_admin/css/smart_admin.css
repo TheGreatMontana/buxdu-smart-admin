@@ -1,0 +1,162 @@
+/* ==========================================================================
+   BuxDU Smart Admin Native Django Theme Styles
+   Matches Django Administration Design System (Colors, Borders, Fonts)
+   ========================================================================== */
+
+/* Main Bar Container */
+.buxdu-django-admin-bar {
+    background-color: #20333d;
+    background-image: linear-gradient(180deg, #264350 0%, #1e333e 100%);
+    border: 1px solid #335566;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin: 12px 0 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+}
+
+/* Dark theme & light theme adjustments */
+@media (prefers-color-scheme: light) {
+    .buxdu-django-admin-bar {
+        background-color: #f8fafc;
+        background-image: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+        border: 1px solid #cbd5e1;
+    }
+}
+
+.django-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.django-bar-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px #10b981;
+}
+
+.django-bar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #79aec8;
+    letter-spacing: 0.3px;
+}
+
+.django-bar-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e2e8f0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Action Buttons Container */
+.django-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Django Admin Native Button Style */
+.django-admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    color: #ffffff !important;
+    text-decoration: none;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.django-admin-btn:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.django-admin-btn:active {
+    transform: translateY(0);
+}
+
+.django-admin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 1. Yangi Alifbo Button (Accent Green) */
+.django-btn-accent {
+    background-color: #2b7a59;
+    border-color: #389e74;
+}
+.django-btn-accent:hover {
+    background-color: #24684b;
+}
+
+/* 2. Tillarga Tarjima Button (Classic Django Teal) */
+.django-btn-primary {
+    background-color: #417690;
+    border-color: #559bbd;
+}
+.django-btn-primary:hover {
+    background-color: #35637a;
+}
+
+/* 3. 1-Bosishda Hammasi Button (Purple Accent) */
+.django-btn-master {
+    background-color: #635294;
+    border-color: #7e6ab8;
+}
+.django-btn-master:hover {
+    background-color: #51427c;
+}
+
+/* Django Native Alert Messages */
+.buxdu-django-alert {
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 10px 0;
+    line-height: 1.4;
+    border-left: 5px solid #10b981;
+    background-color: #1a3328;
+    color: #34d399;
+}
+
+.buxdu-django-alert.hidden {
+    display: none !important;
+}
+
+.buxdu-django-alert.error {
+    border-left-color: #ef4444;
+    background-color: #3d1a1a;
+    color: #f87171;
+}
+
+.buxdu-django-alert.info {
+    border-left-color: #0284c7;
+    background-color: #172d3d;
+    color: #38bdf8;
+}

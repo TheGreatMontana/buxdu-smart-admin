@@ -24,15 +24,12 @@ class ArticleAdmin(SmartMultilingualAdmin):
         }),
         ("🇷🇺 Русский", {
             'fields': ('sarlavha_ru', 'text_ru'),
-            'classes': ('collapse',),
         }),
         ("🇬🇧 Ingliz tili (English)", {
             'fields': ('sarlavha_en', 'text_en'),
-            'classes': ('collapse',),
         }),
         ("🇨🇳 Xitoycha (中文)", {
             'fields': ('sarlavha_zh', 'text_zh'),
-            'classes': ('collapse',),
         }),
         ("⚙️ Parametrlar va Rasm", {
             'fields': ('image', 'is_featured', 'owner', 'author', 'xodimlar_info', 'uniwork_id', 'views_count', 'slug'),

@@ -1,316 +1,162 @@
 /* ==========================================================================
-   BuxDU Smart Admin Modern Theme & Magic Bar Styles
+   BuxDU Smart Admin Native Django Theme Styles
+   Matches Django Administration Design System (Colors, Borders, Fonts)
    ========================================================================== */
 
-:root {
-    --buxdu-primary: #2563eb;
-    --buxdu-primary-hover: #1d4ed8;
-    --buxdu-accent: #059669;
-    --buxdu-accent-hover: #047857;
-    --buxdu-bg-light: #f8fafc;
-    --buxdu-border: #e2e8f0;
-    --buxdu-text: #1e293b;
-    --buxdu-radius: 10px;
-    --buxdu-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-}
-
-.buxdu-smart-bar {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-    border: 1px solid #cbd5e1;
-    border-radius: var(--buxdu-radius);
-    padding: 16px 20px;
-    margin: 15px 0 25px 0;
-    box-shadow: var(--buxdu-shadow);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-.buxdu-bar-header {
+/* Main Bar Container */
+.buxdu-django-admin-bar {
+    background-color: #20333d;
+    background-image: linear-gradient(180deg, #264350 0%, #1e333e 100%);
+    border: 1px solid #335566;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin: 12px 0 16px 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 15px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--buxdu-border);
+    gap: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
-.buxdu-logo-badge {
+/* Dark theme & light theme adjustments */
+@media (prefers-color-scheme: light) {
+    .buxdu-django-admin-bar {
+        background-color: #f8fafc;
+        background-image: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+        border: 1px solid #cbd5e1;
+    }
+}
+
+.django-bar-left {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    color: var(--buxdu-text);
-}
-
-.badge-dot {
-    width: 10px;
-    height: 10px;
-    background-color: #10b981;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-
-.badge-version {
-    font-size: 12px;
-    background: #e0e7ff;
-    color: #3730a3;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-weight: 600;
-}
-
-.buxdu-bar-actions {
-    display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
 }
 
-.smart-btn {
+.django-bar-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px #10b981;
+}
+
+.django-bar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #79aec8;
+    letter-spacing: 0.3px;
+}
+
+.django-bar-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e2e8f0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Action Buttons Container */
+.django-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Django Admin Native Button Style */
+.django-admin-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 9px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 8px;
-    border: none;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease-in-out;
+    color: #ffffff !important;
+    text-decoration: none;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
-.smart-btn:hover {
+.django-admin-btn:hover {
+    filter: brightness(1.15);
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 
-.smart-btn:active {
+.django-admin-btn:active {
     transform: translateY(0);
 }
 
-.smart-btn:disabled {
+.django-admin-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-.smart-btn-primary {
-    background-color: var(--buxdu-primary);
-    color: #ffffff;
+/* 1. Yangi Alifbo Button (Accent Green) */
+.django-btn-accent {
+    background-color: #2b7a59;
+    border-color: #389e74;
+}
+.django-btn-accent:hover {
+    background-color: #24684b;
 }
 
-.smart-btn-primary:hover {
-    background-color: var(--buxdu-primary-hover);
+/* 2. Tillarga Tarjima Button (Classic Django Teal) */
+.django-btn-primary {
+    background-color: #417690;
+    border-color: #559bbd;
+}
+.django-btn-primary:hover {
+    background-color: #35637a;
 }
 
-.smart-btn-accent {
-    background-color: var(--buxdu-accent);
-    color: #ffffff;
+/* 3. 1-Bosishda Hammasi Button (Purple Accent) */
+.django-btn-master {
+    background-color: #635294;
+    border-color: #7e6ab8;
+}
+.django-btn-master:hover {
+    background-color: #51427c;
 }
 
-.smart-btn-accent:hover {
-    background-color: var(--buxdu-accent-hover);
-}
-
-.smart-btn-secondary {
-    background-color: #ffffff;
-    color: #334155;
-    border: 1px solid #cbd5e1;
-}
-
-.smart-btn-secondary:hover {
-    background-color: #f1f5f9;
-}
-
-/* Tabs */
-.buxdu-lang-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.lang-tab {
-    padding: 7px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    background: #ffffff;
-    color: #475569;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.15s ease;
-}
-
-.lang-tab:hover {
-    background: #f8fafc;
-    border-color: #94a3b8;
-}
-
-.lang-tab.active {
-    background: #1e293b;
-    color: #ffffff;
-    border-color: #1e293b;
-}
-
-/* Notification Banner */
-.buxdu-status {
-    margin-top: 12px;
+/* Django Native Alert Messages */
+.buxdu-django-alert {
     padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 10px 0;
+    line-height: 1.4;
+    border-left: 5px solid #10b981;
+    background-color: #1a3328;
+    color: #34d399;
 }
 
-.buxdu-status.success {
-    background: #dcfce7;
-    color: #166534;
-    border: 1px solid #bbf7d0;
-}
-
-.buxdu-status.info {
-    background: #dbeafe;
-    color: #1e40af;
-    border: 1px solid #bfdbfe;
-}
-
-.buxdu-status.error {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fecaca;
-}
-
-.hidden {
+.buxdu-django-alert.hidden {
     display: none !important;
 }
 
-/* Preview Modal */
-.buxdu-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
+.buxdu-django-alert.error {
+    border-left-color: #ef4444;
+    background-color: #3d1a1a;
+    color: #f87171;
 }
 
-.buxdu-modal-content {
-    background: #ffffff;
-    border-radius: 14px;
-    width: 90%;
-    max-width: 600px;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-}
-
-.buxdu-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.buxdu-modal-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #0f172a;
-}
-
-.buxdu-modal-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #64748b;
-}
-
-.buxdu-modal-body {
-    padding: 20px;
-}
-
-/* Telegram card */
-.telegram-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-left: 4px solid #0088cc;
-    border-radius: 8px;
-    padding: 12px 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.tg-sender {
-    font-weight: 700;
-    color: #0088cc;
-    font-size: 13px;
-    margin-bottom: 6px;
-}
-
-.tg-title {
-    font-weight: 700;
-    color: #1e293b;
-    font-size: 15px;
-    margin-bottom: 8px;
-}
-
-.tg-body {
-    font-size: 13px;
-    color: #334155;
-    line-height: 1.5;
-    max-height: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.tg-footer {
-    margin-top: 8px;
-    font-size: 11px;
-    color: #94a3b8;
-}
-
-/* Google card */
-.google-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px 16px;
-}
-
-.google-url {
-    font-size: 12px;
-    color: #202124;
-    margin-bottom: 4px;
-}
-
-.google-title {
-    font-size: 16px;
-    color: #1a0dab;
-    text-decoration: none;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-.google-desc {
-    font-size: 13px;
-    color: #4d5156;
-    line-height: 1.4;
+.buxdu-django-alert.info {
+    border-left-color: #0284c7;
+    background-color: #172d3d;
+    color: #38bdf8;
 }

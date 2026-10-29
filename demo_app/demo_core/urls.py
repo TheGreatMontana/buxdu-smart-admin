@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from dashboard.views import dashboard_index, mobile_view, campus_image_view
+from dashboard.views import (
+    dashboard_index, mobile_view, campus_image_view, 
+    auto_login_admin_preview, auto_login_admin_index
+)
 
 urlpatterns = [
     # 1. Modern Standalone Admin Dashboard (admin.buxdu.uz style)
@@ -10,6 +13,8 @@ urlpatterns = [
     # 2. Modern Mobile Redesign of buxdu.uz
     path('mobile/', mobile_view, name='mobile_home'),
     path('campus-hero.jpg', campus_image_view, name='campus_hero_img'),
+    path('preview/admin/', auto_login_admin_preview, name='auto_login_admin'),
+    path('preview/admin/index/', auto_login_admin_index, name='auto_login_admin_index'),
 
     # 3. REST API for Standalone Dashboard
     path('api/', include('api.urls')),

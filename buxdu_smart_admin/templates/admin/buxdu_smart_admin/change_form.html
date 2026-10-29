@@ -4,77 +4,29 @@
 {% block object-tools %}
     {{ block.super }}
 
-    <!-- BuxDU Smart Admin Magic Action Bar -->
-    <div class="buxdu-smart-bar">
-        <div class="buxdu-bar-header">
-            <div class="buxdu-logo-badge">
-                <span class="badge-dot"></span>
-                <strong>BuxDU Smart Assistant</strong>
-                <span class="badge-version">v1.0 (2026 Yangi Alifbo)</span>
-            </div>
-            <div class="buxdu-bar-actions">
-                <button type="button" id="btn-transliterate-new" class="smart-btn smart-btn-accent" title="Hamma o'zbekcha matnlarni yangi lotin alifbosiga o'tkazish (Ö, Ğ, Ş, Ç)">
-                    <span class="btn-icon">⚡</span> Yangi Alifboga O'girish (Ö, Ğ, Ş, Ç)
-                </button>
-                <button type="button" id="btn-auto-translate" class="smart-btn smart-btn-primary" title="O'zbekcha matnni avtomatik ravishda rus, ingliz va xitoy tillariga professional darajada tarjima qilish">
-                    <span class="btn-icon">🌐</span> Tillarga Avto-Tarjima (RU, EN, ZH)
-                </button>
-                <button type="button" id="btn-seo-preview" class="smart-btn smart-btn-secondary" title="Maqola Telegram va Google qidiruvida qanday ko'rinishini tekshirish">
-                    <span class="btn-icon">👁️</span> Telegram & Google Preview
-                </button>
-            </div>
+    <!-- BuxDU Smart Admin Native Django Action Bar -->
+    <div class="buxdu-django-admin-bar" id="buxdu-django-bar">
+        <div class="django-bar-left">
+            <span class="django-bar-dot"></span>
+            <strong class="django-bar-title">BuxDU Smart Assistant</strong>
+            <span class="django-bar-badge">2026 Alifbo Reformasi: Ö, Ğ, Ş, Ç</span>
         </div>
-
-        <!-- Language Quick Switcher Tabs -->
-        <div class="buxdu-lang-tabs" id="buxdu-lang-tabs">
-            <button type="button" class="lang-tab active" data-lang="all">
-                <span class="tab-flag">🌐</span> Barcha maydonlar
+        <div class="django-bar-actions">
+            <!-- 1. ALIFBOGA O'TKAZISH TUGMASI -->
+            <button type="button" id="btn-transliterate-new" class="django-admin-btn django-btn-accent" title="Barcha o'zbekcha so'zlarni yangi 2026 alifbosiga (Ö, Ğ, Ş, Ç) o'tkazish">
+                <span class="btn-icon">⚡</span> Yangi Alifboga O'tkazish (Ö, Ğ, Ş, Ç)
             </button>
-            <button type="button" class="lang-tab" data-lang="uz">
-                <span class="tab-flag">🇺🇿</span> O'zbekcha
+            <!-- 2. AVTO-TARJIMA TUGMASI -->
+            <button type="button" id="btn-auto-translate" class="django-admin-btn django-btn-primary" title="O'zbekcha matnni rus, ingliz va xitoy tillariga avtomatik tarjima qilish">
+                <span class="btn-icon">🌐</span> Tillarga Avto-Tarjima (RU, EN, ZH)
             </button>
-            <button type="button" class="lang-tab" data-lang="ru">
-                <span class="tab-flag">🇷🇺</span> Русский
+            <!-- 3. 1-BOSISHDA HAMMASI -->
+            <button type="button" id="btn-master-all" class="django-admin-btn django-btn-master" title="Yangi alifboga o'tkazish va 3 tilda tarjima qilishni bir vaqtda bajarish">
+                <span class="btn-icon">🚀</span> 1-Bosishda Hammasi
             </button>
-            <button type="button" class="lang-tab" data-lang="en">
-                <span class="tab-flag">🇬🇧</span> English
-            </button>
-            <button type="button" class="lang-tab" data-lang="zh">
-                <span class="tab-flag">🇨🇳</span> 中文
-            </button>
-        </div>
-
-        <!-- Notification Banner -->
-        <div id="buxdu-status-message" class="buxdu-status hidden"></div>
-    </div>
-
-    <!-- Preview Modal -->
-    <div id="buxdu-preview-modal" class="buxdu-modal hidden">
-        <div class="buxdu-modal-content">
-            <div class="buxdu-modal-header">
-                <h3>📱 Telegram va Google Qidiruvida Ko'rinishi</h3>
-                <button type="button" class="buxdu-modal-close" id="btn-close-preview">&times;</button>
-            </div>
-            <div class="buxdu-modal-body">
-                <div class="preview-section">
-                    <h4>🔹 Telegram Post Preview:</h4>
-                    <div class="telegram-card">
-                        <div class="tg-sender">🏛️ Buxoro davlat universiteti (Rasmiy kanal)</div>
-                        <div class="tg-title" id="tg-preview-title">Sarlavha...</div>
-                        <div class="tg-body" id="tg-preview-body">Matn...</div>
-                        <div class="tg-footer">🔗 buxdu.uz &bull; hozir</div>
-                    </div>
-                </div>
-
-                <div class="preview-section" style="margin-top: 20px;">
-                    <h4>🔹 Google Snippet Preview:</h4>
-                    <div class="google-card">
-                        <div class="google-url">https://buxdu.uz &rsaquo; yangiliklar</div>
-                        <div class="google-title" id="google-preview-title">Buxoro davlat universiteti rasmiy xabari</div>
-                        <div class="google-desc" id="google-preview-desc">BuxDU rasmiy yangiliklari...</div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+    <!-- Django Native Style Alert Message -->
+    <div id="buxdu-django-alert" class="buxdu-django-alert hidden"></div>
 {% endblock %}
